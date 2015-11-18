@@ -1,2 +1,2 @@
 # recall704
-blog
+blog by hugo.
