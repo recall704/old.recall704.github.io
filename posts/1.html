@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Page 1 - recall</title>
+    <meta name="keywords" content="python,django,static"/>
+    <meta name="description" content="recall"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/prism.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+<header id="header">
+    <div class="container">
+        <div class="header clearfix">
+            <nav id="site-nav">
+                <ul class="nav nav-inverse nav-pills pull-right">
+                    <li role="presentation" class="">
+                        <a href="/" >Home
+                        </a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a href="/archive" >Archive
+                        </a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a href="/about" >About
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <h3 id="site-title">
+                <a href="/">recall <sup></sup></a>
+            </h3>
+        </div>
+    </div>
+</header>
+
+<section id="main">
+    <div class="container">
+        <div id="article-list">
+            <article class="article">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1 panel panel-default">
+                        <header class="header">
+                            <div class="meta">
+                        <span class="date">
+                            <span class="month">3</span>
+                            <span class="day">15</span>
+                        </span>
+                            </div>
+                            <h3 class="title">
+                                <a href="/2016/3/15/%e4%bb%8e%e9%9b%b6%e5%bc%80%e5%a7%8b%e5%88%86%e6%9e%90Django%e6%ba%90%e7%a0%813.html">从零开始分析 Django 源码 (三)</a>
+                            </h3>
+                        </header>
+                        <section class="brief"><p>工作太忙,实在是没时间写东西.
+今天来分析下 get_object_or_404 的源码</p>
+
+<h3 id="1-一个-get-object-or-404-的例子">1. 一个 get_object_or_404 的例子</h3>
+<pre><code class="language-python">def compnay_files_list(request,company_id):
+    company = get_object_or_404(Company,id = company_id)
+    fileowner_type = ContentType.objects.get_for_model(company)
+    
+    return render_to_response('company/company_files.html', {
+        'company':company,'contenttype_id':fileowner_type.id
+    }, context_instance=RequestContext(request))
+</code></pre>
+
+<h3 id="2-我们来分析分析-get-object-or-404">2. 我们来分析分析 get_object_or_404</h3>
+<pre><code class="language-python">def get_object_or_404(klass, *args, **kwargs):
+    &quot;&quot;&quot;
+    Uses get() to return an object, or raises a Http404 exception if the object
+    does not exist.
+
+    klass may be a Model, Manager, or QuerySet object. All other passed
+    arguments and keyword arguments are used in the get() query.
+
+    Note: Like with get(), an MultipleObjectsReturned will be raised if more than one
+    object is found.
+    &quot;&quot;&quot;
+    queryset = _get_queryset(klass)
+    try:
+        return queryset.get(*args, **kwargs)
+    except queryset.model.DoesNotExist:
+        raise Http404('No %s matches the given query.' % queryset.model._meta.object_name)
+</code></pre>
+
+<h4 id="2-1-我们先来分析-get-queryset-这个函数">2.1 我们先来分析 _get_queryset 这个函数</h4>
+<pre><code class="language-python">def _get_queryset(klass):
+    &quot;&quot;&quot;
+    Returns a QuerySet from a Model, Manager, or QuerySet. Created to make
+    get_object_or_404 and get_list_or_404 more DRY.
+    &quot;&quot;&quot;
+    if isinstance(klass, QuerySet):
+        return klass
+    elif isinstance(klass, Manager):
+        manager = klass
+    else:
+        manager = klass._default_manager
+    return manager.all()
+</code></pre>
+
+<p>如果是 QuerySet ,直接返回
+如果是 Manager ,返回  Manager.all() ,其实也是 QuerySet
+如果都不是,一般就会是一个 Model 名, 获得 默认的 Manager,然后 Manager.all() ,最后还是返回 QuerySet
+所以结论就是返回 QuerySet</p>
+
+<h4 id="2-2-继续分析get-object-or-404">2.2 继续分析get_object_or_404</h4>
+
+<p>返回了 QuerySet 对象之后,再get 取值就OK了.</p>
+
+<p>klass may be a Model, Manager, or QuerySet object.
+这里已经说得很清楚, klass 可以是 Model , Manager, 或者 QuerySet 对象.</p>
+
+<hr />
+
+<p>PS: python 中,类也是对象</p>
+</section>
+                        <aside class="aside clearfix">
+                            <a class="btn btn-primary btn-lg pull-right" href="/2016/3/15/%e4%bb%8e%e9%9b%b6%e5%bc%80%e5%a7%8b%e5%88%86%e6%9e%90Django%e6%ba%90%e7%a0%813.html">继续阅读</a>
+                        </aside>
+                    </div>
+                </div>
+            </article>
+            
+            <article class="article">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1 panel panel-default">
+                        <header class="header">
+                            <div class="meta">
+                        <span class="date">
+                            <span class="month">3</span>
+                            <span class="day">15</span>
+                        </span>
+                            </div>
+                            <h3 class="title">
+                                <a href="/2016/3/15/%e4%bb%8e%e9%9b%b6%e5%bc%80%e5%a7%8b%e5%88%86%e6%9e%90Django%e6%ba%90%e7%a0%812.html">从零开始分析 Django 源码 (二)</a>
+                            </h3>
+                        </header>
+                        <section class="brief"><h1 id="从-中间件-和-response-继续分析">从 <strong>中间件</strong> 和 <strong>response</strong> 继续分析</h1>
+
+<p>上次我们分析了 Django 的 startproject 和 startapp，按照我们学习的规律，我们应该继续分析 syncdb 和 runserver 两个 command，但是，由于对wsgi 和 数据库不够了解，所以我们可以先尝试分析其它的代码。</p>
+
+<p>Django/core/handler/wsgi.py 下的 WSGIHandler 有两个关键的调用，我们先来看看代码</p>
+<pre><code class="language-python">class WSGIHandler(base.BaseHandler):
+    initLock = Lock()
+    request_class = WSGIRequest
+
+    def __call__(self, environ, start_response):
+        # Set up middleware if needed. We couldn't do this earlier, because
+        # settings weren't available.
+        if self._request_middleware is None:
+            with self.initLock:
+                try:
+                    # Check that middleware is still uninitialised.
+                    if self._request_middleware is None:
+                        self.load_middleware()
+                        # 加载中间件
+                except:
+                    # Unload whatever middleware we got
+                    self._request_middleware = None
+                    raise
+
+        set_script_prefix(base.get_script_name(environ))
+        signals.request_started.send(sender=self.__class__)
+        try:
+            request = self.request_class(environ)
+        except UnicodeDecodeError:
+            logger.warning('Bad Request (UnicodeDecodeError)',
+                exc_info=sys.exc_info(),
+                extra={
+                    'status_code': 400,
+                }
+            )
+            response = http.HttpResponseBadRequest()
+        else:
+            response = self.get_response(request)
+            # 获得 response
+
+        response._handler_class = self.__class__
+
+        status = '%s %s' % (response.status_code, response.reason_phrase)
+        response_headers = [(str(k), str(v)) for k, v in response.items()]
+        for c in response.cookies.values():
+            response_headers.append((str('Set-Cookie'), str(c.output(header=''))))
+        start_response(force_str(status), response_headers)
+        return response
+</code></pre>
+
+<p>这两个关键的调用是 load_middleware 和 get_response。
+它们的具体实现时在 BaseHandler 中，我们跟进
+Django/core/handler/base.py</p>
+
+<h3 id="1-加载-中间件">1.加载 中间件</h3>
+<pre><code class="language-python">    def load_middleware(self):
+        &quot;&quot;&quot;
+        Populate middleware lists from settings.MIDDLEWARE_CLASSES.
+
+        Must be called after the environment is fixed (see __call__ in subclasses).
+        &quot;&quot;&quot;
+        self._view_middleware = []
+        self._template_response_middleware = []
+        self._response_middleware = []
+        self._exception_middleware = []
+
+        request_middleware = []
+        for middleware_path in settings.MIDDLEWARE_CLASSES:
+            print 45,'django.handler.base.BaseHandler'
+            print 46,middleware_path
+            mw_class = import_by_path(middleware_path)
+            try:
+                mw_instance = mw_class()
+                print 50,mw_instance.__class__
+            except MiddlewareNotUsed:
+                continue
+
+            if hasattr(mw_instance, 'process_request'):
+                request_middleware.append(mw_instance.process_request)
+            if hasattr(mw_instance, 'process_view'):
+                self._view_middleware.append(mw_instance.process_view)
+            if hasattr(mw_instance, 'process_template_response'):
+                self._template_response_middleware.insert(0, mw_instance.process_template_response)
+            if hasattr(mw_instance, 'process_response'):
+                self._response_middleware.insert(0, mw_instance.process_response)
+            if hasattr(mw_instance, 'process_exception'):
+                self._exception_middleware.insert(0, mw_instance.process_exception)
+
+        # We only assign to this when initialization is complete as it is used
+        # as a flag for initialization being complete.
+        self._request_middleware = request_middleware
+</code></pre>
+
+<p>我加了一些打印，我们来看看输出</p>
+<pre><code class="language-bash">45 django.handler.base.BaseHandler
+46 django.contrib.sessions.middleware.SessionMiddleware
+50 &lt;class 'django.contrib.sessions.middleware.SessionMiddleware'&gt;
+45 django.handler.base.BaseHandler
+46 django.middleware.common.CommonMiddleware
+50 &lt;class 'django.middleware.common.CommonMiddleware'&gt;
+45 django.handler.base.BaseHandler
+46 django.middleware.csrf.CsrfViewMiddleware
+50 &lt;class 'django.middleware.csrf.CsrfViewMiddleware'&gt;
+45 django.handler.base.BaseHandler
+46 django.contrib.auth.middleware.AuthenticationMiddleware
+50 &lt;class 'django.contrib.auth.middleware.AuthenticationMiddleware'&gt;
+45 django.handler.base.BaseHandler
+46 django.contrib.messages.middleware.MessageMiddleware
+50 &lt;class 'django.contrib.messages.middleware.MessageMiddleware'&gt;
+45 django.handler.base.BaseHandler
+46 django.middleware.clickjacking.XFrameOptionsMiddleware
+50 &lt;class 'django.middleware.clickjacking.XFrameOptionsMiddleware'&gt;
+</code></pre>
+
+<p>我们来看看 settings 中的配置</p>
+<pre><code class="language-python">MIDDLEWARE_CLASSES = (
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+)
+</code></pre>
+
+<p>可以看出，和配置的顺序是一样的。
+中间件虽然加载完毕了，但是还没有调用，我们来继续看看下一个关键函数 get_response。</p>
+
+<p>我们先来看看中间件的加载顺序：
+1. process_request
+2. process_view
+3. process_template_response
+4. process_response
+5. process_exception</p>
+
+<p>看到这里，我们先来看看 Django 的官方文档</p>
+
+<h4 id="1-process-request">1.process_request</h4>
+
+<blockquote>
+<p>It should return either None or an HttpResponse object. If it returns None, Django will continue processing this request, executing any other process_request() middleware, then, process_view() middleware, and finally, the appropriate view. If it returns an HttpResponse object, Django won’t bother calling any other request, view or exception middleware, or the appropriate view; it’ll apply response middleware to that HttpResponse, and return the result.</p>
+</blockquote>
+
+<hr />
+
+<blockquote>
+<p>它（process_request）返回 None 或者一个 HttpResponse 对象，如果返回None，Django将会继续处理这个请求，
+执行其它的请求中间件。然后执行视图中间件，然后执行视图函数。一旦Django返回HttpResponse对象，它就不会再执行其它的 （请求、视图、异常）中间件，也不会再执行对应的视图函数。它将调用响应中间件，然后返回结果。</p>
+</blockquote>
+
+<h4 id="2-process-view">2. process_view</h4>
+
+<blockquote>
+<p>process_view(request, view_func, view_args, view_kwargs)
+request is an HttpRequest object. view_func is the Python function that Django is about to use. (It’s the actual function object, not the name of the function as a string.) view_args is a list of positional arguments that will be passed to the view, and view_kwargs is a dictionary of keyword arguments that will be passed to the view. Neither view_args nor view_kwargs include the first view argument (request).</p>
+
+<p>process_view() is called just before Django calls the view.</p>
+
+<p>It should return either None or an HttpResponse object. If it returns None, Django will continue processing this request, executing any other process_view() middleware and, then, the appropriate view. If it returns an HttpResponse object, Django won’t bother calling any other view or exception middleware, or the appropriate view; it’ll apply response middleware to that HttpResponse, and return the result.</p>
+</blockquote>
+
+<hr />
+
+<blockquote>
+<p>Django 在调用视图函数前调用 process_view</p>
+
+<p>request 是一个 HttpRequest 对象，view_func 是一个函数对象，而不是函数名字对应的字符串。view_args 和 view_kwargs 是传入的参数（都不包括 request ）
+执行会返回 None 或者 HttpResponse 对象，如果返回None， Django将会继续处理这个请求（request），继续执行其它的 process_view 中间件，然后是匹配的视图函数。一旦返回 HttpResponse 对象，就不会再执行其它的 视图中间件 和 异常中间件，以及对应的视图函数。
+它将会继续调用 响应中间件，然后返回。</p>
+</blockquote>
+
+<hr />
+
+<p>看到这里，我们再来看看代码</p>
+<pre><code class="language-python">            if response is None:
+                if hasattr(request, 'urlconf'):
+                    # Reset url resolver with a custom urlconf.
+                    urlconf = request.urlconf
+                    urlresolvers.set_urlconf(urlconf)
+                    resolver = urlresolvers.RegexURLResolver(r'^/', urlconf)
+
+                resolver_match = resolver.resolve(request.path_info)
+
+                # ResolverMatch(func=&lt;function index at 0x2373cf0&gt;, args=(), kwargs={}, url_name='index', app_name='None', namespace='')
+                callback, callback_args, callback_kwargs = resolver_match
+                request.resolver_match = resolver_match
+
+                # Apply view middleware
+                for middleware_method in self._view_middleware:
+                    print middleware_method,123
+                    response = middleware_method(request, callback, callback_args, callback_kwargs)
+                    if response:
+                        break
+</code></pre>
+
+<p>callback 就是中间件需要的函数对象，作为 process_view 参数中的 view_func</p>
+
+<hr />
+
+<h4 id="3-视图的处理">3. 视图的处理</h4>
+<pre><code class="language-python">            if response is None:
+                print callback
+                wrapped_callback = self.make_view_atomic(callback)
+                print wrapped_callback
+                try:
+                    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+                except Exception as e:
+                    # If the view raised an exception, run it through exception
+                    # middleware, and if the exception middleware returns a
+                    # response, use that. Otherwise, reraise the exception.
+                    for middleware_method in self._exception_middleware:
+                        response = middleware_method(request, e)
+                        if response:
+                            break
+                    if response is None:
+                        raise
+</code></pre>
+
+<p>如果 response 是None ，执行视图函数，否则跳转到 响应中间件。
+如果执行视图函数返回了 HttpResponse 对象，就跳转到 响应中间件。
+如果执行视图函数出现异常，执行异常中间件。</p>
+
+<h4 id="4-异常中间件-process-exception">4. 异常中间件 process_exception</h4>
+
+<blockquote>
+<p>process_exception(request, exception)
+request is an HttpRequest object. exception is an Exception object raised by the view function.</p>
+
+<p>Django calls process_exception() when a view raises an exception. process_exception() should return either None or an HttpResponse object. If it returns an HttpResponse object, the template response and response middleware will be applied, and the resulting response returned to the browser. Otherwise, default exception handling kicks in.</p>
+
+<p>Again, middleware are run in reverse order during the response phase, which includes process_exception. If an exception middleware returns a response, the middleware classes above that middleware will not be called at all.</p>
+</blockquote>
+
+<hr />
+
+<blockquote>
+<p>request 是一个 HttpRequest 对象，exception 是一个从视图抛出的异常对象。
+当视图抛出异常，Django将会调用 process_exception 中间件，然后返回 None 或者 HttpResponse 对象。
+如果返回 HttpResponse 对象，process_template_response 中间件 和 process_response中间件 将会被继续调用。
+如果返回None，默认的异常就会被触发。
+此外，在 response 逐步形成的阶段，中间件的调用是和加载顺序相反的，包括 process_exception。也就是说，如果某个中间件返回了 response，在这个中间件之上的中间件都不会被调用。</p>
+</blockquote>
+
+<h4 id="5-异常-视图没有返回-httpresponse-对象">5. 异常（视图没有返回 HttpResponse 对象）</h4>
+<pre><code class="language-python">            if response is None:
+                if isinstance(callback, types.FunctionType):    # FBV
+                    view_name = callback.__name__
+                else:                                           # CBV
+                    view_name = callback.__class__.__name__ + '.__call__'
+                raise ValueError(&quot;The view %s.%s didn't return an HttpResponse object.&quot; % (callback.__module__, view_name))
+
+</code></pre>
+
+<h4 id="6-process-template-response-中间件">6. process_template_response 中间件</h4>
+
+<blockquote>
+<p>process_template_response(request, response)
+request is an HttpRequest object. response is the TemplateResponse object (or equivalent) returned by a Django view or by a middleware.</p>
+
+<p>process_template_response() is called just after the view has finished executing, if the response instance has a render() method, indicating that it is a TemplateResponse or equivalent.</p>
+
+<p>It must return a response object that implements a render method. It could alter the given response by changing response.template_name and response.context_data, or it could create and return a brand-new TemplateResponse or equivalent.</p>
+
+<p>You don’t need to explicitly render responses – responses will be automatically rendered once all template response middleware has been called.</p>
+
+<p>Middleware are run in reverse order during the response phase, which includes process_template_response().</p>
+
+<p>request 是HttpRequest对象，response 是一个 TemplateResponse 对象，或者由<strong>视图 或 其他中间件</strong> 产生的等效的对象.</p>
+
+<p>在视图执行完毕之后，如果 response 实例包含 render 方法，表明这是一个 TemplateResponse 对象或者等效的对象，process_template_response 中间件就会被调用.</p>
+
+<p>它必须返回一个继承有 render 方法的 response 对象，这可能会改变原有的 response 中的 template_name 和 context_data，或者创建一个全新的 TemplateResponse对象（或等效对象）.</p>
+
+<p>你不必显示渲染 responses， responses 会在所有 template response 中间件调用结束后自动渲染.</p>
+
+<p>在生成 response 阶段，所有的中间件都是反向运行的，其中自然包括了 process_template_response.</p>
+</blockquote>
+
+<p>到这里我查了下google ，资料很少，应该是几乎没有人用，或者没有展示出来.</p>
+
+<h4 id="7-process-response">7. process_response</h4>
+
+<blockquote>
+<p>process_response(request, response)
+request is an HttpRequest object. response is the HttpResponse or StreamingHttpResponse object returned by a Django view or by a middleware.</p>
+
+<p>request 是 HttpRequest 对象，response 是 视图或中间件返回的 HttpResponse或 StreamingHttpResponse对象.</p>
+
+<p>process_response() is called on all responses before they’re returned to the browser.</p>
+
+<p>在返回数据到浏览器之前，process_response 会对所有的 responses进行处理.</p>
+
+<p>It must return an HttpResponse or StreamingHttpResponse object. It could alter the given response, or it could create and return a brand-new HttpResponse or StreamingHttpResponse.</p>
+
+<p>结果必须返回一个 HttpResponse 或 StreamingHttpResponse 对象，它可能修改已有的对象，也可能创建一个全新的 HttpResponse 或 StreamingHttpResponse 对象.</p>
+
+<p>Unlike the process_request() and process_view() methods, the process_response() method is always called, even if the process_request() and process_view() methods of the same middleware class were skipped (because an earlier middleware method returned an HttpResponse). In particular, this means that your process_response() method cannot rely on setup done in process_request().</p>
+
+<p>和process_request 和 process_view 不一样，process_response 总是会被调用的.
+即使跳过了 process_request 和 process_view 方法(因为在这之前就生成了HttpResponse)
+尤其需要注意的是，你的process_response 不能依赖 process_request.</p>
+
+<p>Finally, remember that during the response phase, middleware are applied in reverse order, from the bottom up. This means classes defined at the end of MIDDLEWARE_CLASSES will be run first.</p>
+
+<p>最后，一点要记住，在response 生成的阶段，中间件是从下往上被调用的，这表示定义在后面的中间件将会被先执行.</p>
+</blockquote>
+</section>
+                        <aside class="aside clearfix">
+                            <a class="btn btn-primary btn-lg pull-right" href="/2016/3/15/%e4%bb%8e%e9%9b%b6%e5%bc%80%e5%a7%8b%e5%88%86%e6%9e%90Django%e6%ba%90%e7%a0%812.html">继续阅读</a>
+                        </aside>
+                    </div>
+                </div>
+            </article>
+            
+            <article class="article">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1 panel panel-default">
+                        <header class="header">
+                            <div class="meta">
+                        <span class="date">
+                            <span class="month">3</span>
+                            <span class="day">15</span>
+                        </span>
+                            </div>
+                            <h3 class="title">
+                                <a href="/2016/3/15/%e4%bb%8e%e9%9b%b6%e5%bc%80%e5%a7%8b%e5%88%86%e6%9e%90Django%e6%ba%90%e7%a0%811.html">从零开始分析 Django 源码 (一)</a>
+                            </h3>
+                        </header>
+                        <section class="brief"><h3 id="从-startproject-开始">从 <em>startproject</em> 开始</h3>
+
+<p>还记得最初我们是如何开始 Django 项目的么？</p>
+<pre><code class="language-bash">django-admin startproject mysite
+</code></pre>
+
+<p>so，找到
+<code>Django/bin/django-admin.py</code></p>
+<pre><code class="language-python">#!/usr/bin/env python
+from django.core import management
+
+if __name__ == &quot;__main__&quot;:
+    management.execute_from_command_line()
+</code></pre>
+
+<p>OK，它是从 management 来的，我们继续跟进。
+找到
+<code>Django/core/management/__init__.py</code>
+最后几行</p>
+<pre><code class="language-python">def execute_from_command_line(argv=None):
+    &quot;&quot;&quot;
+    A simple method that runs a ManagementUtility.
+    &quot;&quot;&quot;
+    utility = ManagementUtility(argv)
+    utility.execute()
+</code></pre>
+
+<p>ManagementUtility 的一个对象，并调用了 execute</p>
+
+<p>ManagementUtility 的定义就在函数的上面，我们先来看它的 execute</p>
+<pre><code class="language-python">    def execute(self):
+        &quot;&quot;&quot;
+        Given the command-line arguments, this figures out which subcommand is
+        being run, creates a parser appropriate to that command, and runs it.
+        &quot;&quot;&quot;
+        # Preprocess options to extract --settings and --pythonpath.
+        # These options could affect the commands that are available, so they
+        # must be processed early.
+        parser = LaxOptionParser(usage=&quot;%prog subcommand [options] [args]&quot;,
+                                 version=get_version(),
+                                 option_list=BaseCommand.option_list)
+        self.autocomplete()
+        try:
+            options, args = parser.parse_args(self.argv)
+            handle_default_options(options)
+        except:
+            pass # Ignore any option errors at this point.
+
+        try:
+            subcommand = self.argv[1]
+        except IndexError:
+            subcommand = 'help' # Display help if no arguments were given.
+
+        if subcommand == 'help':
+            if len(args) &lt;= 2:
+                parser.print_lax_help()
+                sys.stdout.write(self.main_help_text() + '\n')
+            elif args[2] == '--commands':
+                sys.stdout.write(self.main_help_text(commands_only=True) + '\n')
+            else:
+                self.fetch_command(args[2]).print_help(self.prog_name, args[2])
+        elif subcommand == 'version':
+            sys.stdout.write(parser.get_version() + '\n')
+        # Special-cases: We want 'django-admin.py --version' and
+        # 'django-admin.py --help' to work, for backwards compatibility.
+        elif self.argv[1:] == ['--version']:
+            # LaxOptionParser already takes care of printing the version.
+            pass
+        elif self.argv[1:] in (['--help'], ['-h']):
+            parser.print_lax_help()
+            sys.stdout.write(self.main_help_text() + '\n')
+        else:
+            self.fetch_command(subcommand).run_from_argv(self.argv)
+</code></pre>
+
+<p>其中就是一些判断，根据参数执行不同的操作，比如打印帮助，打印版本信息等等。
+真正的命令会在</p>
+<pre><code class="language-python">self.fetch_command(subcommand).run_from_argv(self.argv)
+</code></pre>
+
+<p>从这里执行
+<code>self.fetch_command(subcommand)</code> 返回的会是 <em>BaseCommand</em> 及其子类的对象。
+然后调用对象的 run_from_argv 方法。
+我们尝试去找 startproject 的 Command</p>
+
+<p>在
+<code>Django/core/management/command/startproject.py</code>
+但其中的 Command 并没有 run_from_argv ，只知道其父类 是 TemplateCommand
+继续跟进， TemplateCommand 也没有 run_from_argv ， 其父类是 BaseCommand
+BaseCommand 中有 run_from_argv 这个方法。</p>
+<pre><code class="language-python">    def run_from_argv(self, argv):
+        &quot;&quot;&quot;
+        Set up any environment changes requested (e.g., Python path
+        and Django settings), then run this command. If the
+        command raises a ``CommandError``, intercept it and print it sensibly
+        to stderr. If the ``--traceback`` option is present or the raised
+        ``Exception`` is not ``CommandError``, raise it.
+        &quot;&quot;&quot;
+        parser = self.create_parser(argv[0], argv[1])
+        options, args = parser.parse_args(argv[2:])
+        handle_default_options(options)
+        try:
+            self.execute(*args, **options.__dict__)
+        except Exception as e:
+            if options.traceback or not isinstance(e, CommandError):
+                raise
+
+            # self.stderr is not guaranteed to be set here
+            stderr = getattr(self, 'stderr', OutputWrapper(sys.stderr, self.style.ERROR))
+            stderr.write('%s: %s' % (e.__class__.__name__, e))
+            sys.exit(1)
+</code></pre>
+
+<p>我尝试做些修改，看看输出会变成什么</p>
+<pre><code class="language-python">    def run_from_argv(self, argv):
+        &quot;&quot;&quot;
+        Set up any environment changes requested (e.g., Python path
+        and Django settings), then run this command. If the
+        command raises a ``CommandError``, intercept it and print it sensibly
+        to stderr. If the ``--traceback`` option is present or the raised
+        ``Exception`` is not ``CommandError``, raise it.
+        &quot;&quot;&quot;
+        print 238,argv
+        sys.exit(1)
+</code></pre>
+
+<p>我在终端中输入</p>
+<pre><code class="language-bash">django-admin.py startproject testproject
+</code></pre>
+
+<p>结果反馈了</p>
+<pre><code class="language-bash">238 ['/path/to/pycode/dj1.6.11/bin/django-admin.py', 'startproject', 'testproject']
+</code></pre>
+
+<p>同样，我们继续看</p>
+<pre><code class="language-python">        print 240,options
+        print 241,args
+        sys.exit(1)
+</code></pre>
+
+<p>会输出什么</p>
+<pre><code class="language-bash">240 {'files': [], 'settings': None, 'pythonpath': None, 'verbosity': u'1', 'traceback': None, 'extensions': ['py'], 'template': None}
+241 ['testproject']
+</code></pre>
+
+<p>看到这，handle_default_options 我们就先不看了，而是看 execute</p>
+<pre><code class="language-python">self.execute(*args, **options.__dict__)
+</code></pre>
+
+<p>后面会执行到 output = self.handle(*args, **options)</p>
+
+<p>我们来看 startproject 命令 对应的 handle</p>
+<pre><code class="language-python">class Command(TemplateCommand):
+    help = (&quot;Creates a Django project directory structure for the given &quot;
+            &quot;project name in the current directory or optionally in the &quot;
+            &quot;given directory.&quot;)
+
+    def handle(self, project_name=None, target=None, *args, **options):
+        self.validate_name(project_name, &quot;project&quot;)
+
+        # Check that the project_name cannot be imported.
+        try:
+            import_module(project_name)
+        except ImportError:
+            pass
+        else:
+            raise CommandError(&quot;%r conflicts with the name of an existing &quot;
+                               &quot;Python module and cannot be used as a &quot;
+                               &quot;project name. Please try another name.&quot; %
+                               project_name)
+
+        # Create a random SECRET_KEY hash to put it in the main settings.
+        chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&amp;*(-_=+)'
+        options['secret_key'] = get_random_string(50, chars)
+
+        super(Command, self).handle('project', project_name, target, **options)
+</code></pre>
+
+<p>这里会进行一个验证，然后尝试将 project_name 作为模块导入。
+生成 secret_key，最后调用
+TemplateCommand 类的 handle 方法，继续处理</p>
+
+<p>剩下的下次分析。</p>
+
+<p>今天继续</p>
+<pre><code class="language-python">    def handle(self, app_or_project, name, target=None, **options):
+        self.app_or_project = app_or_project
+        self.paths_to_remove = []
+        self.verbosity = int(options.get('verbosity'))
+
+        self.validate_name(name, app_or_project)
+
+        # if some directory is given, make sure it's nicely expanded
+        # 如果没有指定 target ，则把当前目录 连接项目名称 作为 项目目录
+        if target is None:
+            top_dir = path.join(os.getcwd(), name)
+            try:
+                print 76,top_dir
+                os.makedirs(top_dir)
+            except OSError as e:
+                if e.errno == errno.EEXIST:
+                    message = &quot;'%s' already exists&quot; % top_dir
+                else:
+                    message = e
+                raise CommandError(message)
+        # 否则使用 target 的目录作为项目目录
+        else:
+            top_dir = os.path.abspath(path.expanduser(target))
+            if not os.path.exists(top_dir):
+                raise CommandError(&quot;Destination directory '%s' does not &quot;
+                                   &quot;exist, please create it first.&quot; % top_dir)
+
+        extensions = tuple(
+            handle_extensions(options.get('extensions'), ignored=()))
+        extra_files = []
+        for file in options.get('files'):
+            extra_files.extend(map(lambda x: x.strip(), file.split(',')))
+        if self.verbosity &gt;= 2:
+            self.stdout.write(&quot;Rendering %s template files with &quot;
+                              &quot;extensions: %s\n&quot; %
+                              (app_or_project, ', '.join(extensions)))
+            self.stdout.write(&quot;Rendering %s template files with &quot;
+                              &quot;filenames: %s\n&quot; %
+                              (app_or_project, ', '.join(extra_files)))
+
+        base_name = '%s_name' % app_or_project
+        base_subdir = '%s_template' % app_or_project
+        base_directory = '%s_directory' % app_or_project
+        if django.VERSION[-2] != 'final':
+            docs_version = 'dev'
+        else:
+            docs_version = '%d.%d' % django.VERSION[:2]
+
+        context = Context(dict(options, **{
+            base_name: name,
+            base_directory: top_dir,
+            'docs_version': docs_version,
+        }), autoescape=False)
+
+        # Setup a stub settings environment for template rendering
+        from django.conf import settings
+        if not settings.configured:
+            settings.configure()
+
+        template_dir = self.handle_template(options.get('template'),
+                                            base_subdir)
+        prefix_length = len(template_dir) + 1
+
+        print 128,template_dir
+        for root, dirs, files in os.walk(template_dir):
+
+            path_rest = root[prefix_length:]
+            relative_dir = path_rest.replace(base_name, name)
+            if relative_dir:
+                target_dir = path.join(top_dir, relative_dir)
+                if not path.exists(target_dir):
+                    os.mkdir(target_dir)
+
+            for dirname in dirs[:]:
+                if dirname.startswith('.') or dirname == '__pycache__':
+                    dirs.remove(dirname)
+
+            for filename in files:
+                if filename.endswith(('.pyo', '.pyc', '.py.class')):
+                    # Ignore some files as they cause various breakages.
+                    continue
+                old_path = path.join(root, filename)
+                new_path = path.join(top_dir, relative_dir,
+                                     filename.replace(base_name, name))
+                if path.exists(new_path):
+                    raise CommandError(&quot;%s already exists, overlaying a &quot;
+                                       &quot;project or app into an existing &quot;
+                                       &quot;directory won't replace conflicting &quot;
+                                       &quot;files&quot; % new_path)
+
+                # Only render the Python files, as we don't want to
+                # accidentally render Django templates files
+                with open(old_path, 'rb') as template_file:
+                    content = template_file.read()
+                if filename.endswith(extensions) or filename in extra_files:
+                    content = content.decode('utf-8')
+                    template = Template(content)
+                    content = template.render(context)
+                    content = content.encode('utf-8')
+                with open(new_path, 'wb') as new_file:
+                    new_file.write(content)
+
+                if self.verbosity &gt;= 2:
+                    self.stdout.write(&quot;Creating %s\n&quot; % new_path)
+                try:
+                    shutil.copymode(old_path, new_path)
+                    self.make_writeable(new_path)
+                except OSError:
+                    self.stderr.write(
+                        &quot;Notice: Couldn't set permission bits on %s. You're &quot;
+                        &quot;probably using an uncommon filesystem setup. No &quot;
+                        &quot;problem.&quot; % new_path, self.style.NOTICE)
+
+        if self.paths_to_remove:
+            if self.verbosity &gt;= 2:
+                self.stdout.write(&quot;Cleaning up temporary files.\n&quot;)
+            for path_to_remove in self.paths_to_remove:
+                if path.isfile(path_to_remove):
+                    os.remove(path_to_remove)
+                else:
+                    shutil.rmtree(path_to_remove,
+                                  onerror=rmtree_errorhandler)
+</code></pre>
+
+<p>终端中执行</p>
+<pre><code class="language-bash">django-admin.py startproject -v 3 testproject
+</code></pre>
+
+<p>有以下输出</p>
+<pre><code class="language-bash">Rendering project template files with extensions: .py
+Rendering project template files with filenames: 
+128 /path/to/django/dj1.6.11/local/lib/python2.7/site-packages/django/conf/project_template
+Creating /home/pi/pycode/dj1.6.11/testproject/manage.py
+Creating /home/pi/pycode/dj1.6.11/testproject/testproject/settings.py
+Creating /home/pi/pycode/dj1.6.11/testproject/testproject/wsgi.py
+Creating /home/pi/pycode/dj1.6.11/testproject/testproject/__init__.py
+Creating /home/pi/pycode/dj1.6.11/testproject/testproject/urls.py
+</code></pre>
+
+<p>很容易就看到，它从 Django/conf/project_template 中拷贝文件到新创建的项目中。</p>
+
+<p>好了， startproject 分析到此结束。</p>
+
+<hr />
+
+<p>同理，startapp 也是一样，从 Django/conf/app_template 下拷贝文件</p>
+<pre><code class="language-python">Rendering app template files with extensions: .py
+Rendering app template files with filenames: 
+128 /path/to/django/dj1.6.11/local/lib/python2.7/site-packages/django/conf/app_template
+Creating /home/pi/pycode/dj1.6.11/testproject/testapp/admin.py
+Creating /home/pi/pycode/dj1.6.11/testproject/testapp/__init__.py
+Creating /home/pi/pycode/dj1.6.11/testproject/testapp/models.py
+Creating /home/pi/pycode/dj1.6.11/testproject/testapp/tests.py
+Creating /home/pi/pycode/dj1.6.11/testproject/testapp/views.py
+</code></pre>
+</section>
+                        <aside class="aside clearfix">
+                            <a class="btn btn-primary btn-lg pull-right" href="/2016/3/15/%e4%bb%8e%e9%9b%b6%e5%bc%80%e5%a7%8b%e5%88%86%e6%9e%90Django%e6%ba%90%e7%a0%811.html">继续阅读</a>
+                        </aside>
+                    </div>
+                </div>
+            </article>
+            
+            <div class="article-pager text-center">
+                
+                
+            </div>
+        </div>
+    </div>
+</section>
+<footer id="footer">
+    <div class="container text-center">
+        <p>© 2015 recall.
+            <a href="http://creativecommons.org/licenses/by/3.0/">Some rights reserved </a> |
+            <a href="/feed.xml">Feed</a> |
+            <a href="/sitemap.xml">Sitemap</a>
+        </p>
+        <p>Powered by <a href="https://github.com/go-xiaohei/pugo">PuGo 0.9.9 (beta)</a>. Theme by Default.
+        </p>
+        
+    
+    
+
+    </div>
+</footer>
+<script src="/js/jquery-2.1.4.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/prism.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("pre code").addClass("line-numbers")
+    });
+</script>
+</body>
+</html>
