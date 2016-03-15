@@ -3,7 +3,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>tag - R3CALL</title>
+    <title>packages - R3CALL</title>
     <meta name="keywords" content="python,django,static"/>
     <meta name="description" content="R3CALL"/>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
@@ -40,7 +40,7 @@
 <section id="main">
     <div class="container">
         <div id="article-list">
-            <h2 class="tag text-center">tag</h2>
+            <h2 class="tag text-center">packages</h2>
             <article class="article">
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1 panel panel-default">
@@ -52,13 +52,27 @@
                         </span>
                             </div>
                             <h3 class="title">
-                                <a href="/2016/3/16/03-16-00-28-01.html">03-16-00-28-01</a>
+                                <a href="/2016/3/16/install-atom-packages.html">手动安装 atom 扩展包 packages</a>
                             </h3>
                         </header>
-                        <section class="brief"><p>write you post content in 03-16-00-28-01.md</p>
+                        <section class="brief"><p>由于众所周知的原因, 我们下载 atom 扩展时会发现速度特别慢, 或者根本无法下载, 那我们可以尝试手动安装</p>
+
+<p>首先, 从 github 上下载(或其它地方) 扩展包, 解压
+进入该文件夹, 找到 <code>package.json</code> 文件所在的目录
+执行命令</p>
+<pre><code class="language-shell">npm install
+</code></pre>
+
+<p>如果依赖比较多, 可以尝试一个一个独立安装.</p>
+
+<p>还有一种安装方式是执行:</p>
+<pre><code class="language-shell">apm install
+</code></pre>
+
+<p>不过我没有尝试过该方案.</p>
 </section>
                         <aside class="aside clearfix">
-                            <a class="btn btn-primary btn-lg pull-right" href="/2016/3/16/03-16-00-28-01.html">继续阅读</a>
+                            <a class="btn btn-primary btn-lg pull-right" href="/2016/3/16/install-atom-packages.html">继续阅读</a>
                         </aside>
                     </div>
                 </div>
