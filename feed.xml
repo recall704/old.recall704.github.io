@@ -3,7 +3,13 @@
     <title>R3CALL</title>
     <link>http://www.r3call.com/</link>
     <description>R3CALL</description>
-    <pubDate>Fri, 18 Mar 2016 21:09:33 +0800</pubDate>
+    <pubDate>Sat, 19 Mar 2016 02:40:17 +0800</pubDate>
+    <item>
+      <title>docker 阿里云加速</title>
+      <link>http://www.r3call.com/2016/3/19/docker-with-aliyun.html</link>
+      <description>&lt;h2 id=&#34;安装或升级docker&#34;&gt;安装或升级Docker&lt;/h2&gt;&#xA;&#xA;&lt;p&gt;请安装1.6.0以上版本的Docker。&#xA;您可以通过阿里云的镜像仓库下载： mirrors.aliyun.com/help/docker-engine&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;curl -sSL http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/internet | sh -&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&#xA;&lt;h2 id=&#34;配置docker加速器&#34;&gt;配置Docker加速器&lt;/h2&gt;&#xA;&#xA;&lt;p&gt;您可以使用如下的脚本将mirror的配置添加到docker daemon的启动参数中。&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;echo &amp;quot;DOCKER_OPTS=\&amp;quot;--registry-mirror=https://0yjmvwvv.mirror.aliyuncs.com\&amp;quot;&amp;quot; | sudo tee -a /etc/default/docker&#xA;sudo service docker restart&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&#xA;&lt;h2 id=&#34;备注&#34;&gt;备注&lt;/h2&gt;&#xA;&#xA;&lt;p&gt;如果已经安装了新版本的 docker，只需要执行后面的配置就可以了&lt;/p&gt;&#xA;</description>
+      <pubDate>Sat, 19 Mar 2016 02:38:07 +0000</pubDate>
+    </item>
     <item>
       <title>Git 2.0 更改 push default 为 simple</title>
       <link>http://www.r3call.com/2016/3/16/git-更改push.default.html</link>

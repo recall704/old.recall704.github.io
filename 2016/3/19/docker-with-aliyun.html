@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>docker 阿里云加速 - R3CALL</title>
+    <meta name="keywords" content="python,django,static"/>
+    <meta name="description" content=""/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/prism.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+<header id="header">
+    <div class="container">
+        <div class="header clearfix">
+            <nav id="site-nav">
+                <ul class="nav nav-inverse nav-pills pull-right">
+                    <li role="presentation" class="">
+                        <a href="/" >Home
+                        </a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a href="/archive" >Archive
+                        </a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a href="/about" >About
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <h3 id="site-title">
+                <a href="/">R3CALL <sup>三人行，达者为师</sup></a>
+            </h3>
+        </div>
+    </div>
+</header>
+
+<section id="main">
+    <div class="container">
+        <div id="article-single">
+            <article class="article">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1 panel panel-default">
+                        <header class="header">
+                            <div class="meta">
+                        <span class="date">
+                            <span class="month">3</span>
+                            <span class="day">19</span>
+                        </span>
+                            </div>
+                            <h3 class="title">
+                                <a href="/2016/3/19/docker-with-aliyun.html">docker 阿里云加速</a>
+                            </h3>
+                        </header>
+                        <aside class="aside clearfix">
+                            <a class="tag label label-info" href="/tags/docker.html">docker</a>
+                            <a class="tag label label-info" href="/tags/pull.html">pull</a>
+                            <a class="tag label label-info" href="/tags/aliyun.html">aliyun</a>
+                        </aside>
+                        <section class="brief"><h2 id="安装或升级docker">安装或升级Docker</h2>
+
+<p>请安装1.6.0以上版本的Docker。
+您可以通过阿里云的镜像仓库下载： mirrors.aliyun.com/help/docker-engine</p>
+<pre><code class="language-shell">curl -sSL http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/internet | sh -
+</code></pre>
+
+<h2 id="配置docker加速器">配置Docker加速器</h2>
+
+<p>您可以使用如下的脚本将mirror的配置添加到docker daemon的启动参数中。</p>
+<pre><code class="language-shell">echo &quot;DOCKER_OPTS=\&quot;--registry-mirror=https://0yjmvwvv.mirror.aliyuncs.com\&quot;&quot; | sudo tee -a /etc/default/docker
+sudo service docker restart
+</code></pre>
+
+<h2 id="备注">备注</h2>
+
+<p>如果已经安装了新版本的 docker，只需要执行后面的配置就可以了</p>
+</section>
+                    </div>
+                </div>
+            </article>
+        </div>
+        
+<section id="comment">
+    
+    
+</section>
+
+    </div>
+</section>
+<footer id="footer">
+    <div class="container text-center">
+        <p>© 2015 R3CALL.
+            <a href="http://creativecommons.org/licenses/by/3.0/">Some rights reserved </a> |
+            <a href="/feed.xml">Feed</a> |
+            <a href="/sitemap.xml">Sitemap</a>
+        </p>
+        <p>Powered by <a href="https://github.com/go-xiaohei/pugo">PuGo 0.9.9 (beta)</a>. Theme by Default.
+        </p>
+        
+    
+    
+
+    </div>
+</footer>
+<script src="/js/jquery-2.1.4.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/prism.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("pre code").addClass("line-numbers")
+    });
+</script>
+</body>
+</html>
