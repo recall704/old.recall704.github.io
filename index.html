@@ -40,6 +40,74 @@
 <section id="main">
     <div class="container">
         <div id="article-list">
+
+            
+
+            <article class="article">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1 panel panel-default">
+                        <header class="header">
+                            <div class="meta">
+                        <span class="date">
+                            <span class="month">3</span>
+                            <span class="day">16</span>
+                        </span>
+                            </div>
+                            <h3 class="title">
+                                <a href="/2016/3/16/git-%e6%9b%b4%e6%94%b9push.default.html">Git 2.0 更改 push default 为 simple</a>
+                            </h3>
+                        </header>
+                        <aside class="aside clearfix">
+                            
+                            <a class="tag label label-info" href="/tags/git.html">git</a>
+                            
+                            <a class="tag label label-info" href="/tags/simple.html">simple</a>
+                            
+                            <a class="tag label label-info" href="/tags/matching.html">matching</a>
+                            
+                        </aside>
+                        <section class="brief"><p>如果你最近更新了 Git，你可能会在执行 git push 时看到如下消息：</p>
+
+<blockquote>
+<p>warning: push.default is unset; its implicit value is changing in
+Git 2.0 from &lsquo;matching&rsquo; to &lsquo;simple&rsquo;. To squelch this message
+and maintain the current behavior after the default changes, use:</p>
+
+<p><code>git config --global push.default matching</code></p>
+
+<p>To squelch this message and adopt the new behavior now, use:</p>
+
+<p><code>git config --global push.default simple</code></p>
+</blockquote>
+
+<h2 id="matching">Matching</h2>
+
+<p>‘matching’ 参数是 Git 1.x 的默认行为，其意是如果你执行 git push 但没有指定分支，它将 push 所有你本地的分支到远程仓库中对应匹配的分支。</p>
+
+<h2 id="simple">Simple</h2>
+
+<p>而 Git 2.x 默认的是 simple，意味着执行 git push 没有指定分支时，只有当前分支会被 push 到你使用 git pull 获取的代码。</p>
+
+<h2 id="修改默认设置">修改默认设置</h2>
+
+<p>从上述消息提示中的解释，我们可以修改全局配置，使之不会每次 push 的时候都进行提示。对于 matching 输入如下命令即可：</p>
+<pre><code class="language-shell">git config --global push.default matching
+</code></pre>
+
+<p>而对于 simple ，请输入：</p>
+<pre><code class="language-shell">git config --global push.default simple
+</code></pre>
+</section>
+                        <aside class="aside clearfix">
+                            <a class="btn btn-primary btn-lg pull-right" href="/2016/3/16/git-%e6%9b%b4%e6%94%b9push.default.html">Read More</a>
+                        </aside>
+                    </div>
+                </div>
+            </article>
+            
+
+            
+
             <article class="article">
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1 panel panel-default">
@@ -54,6 +122,13 @@
                                 <a href="/2016/3/16/install-atom-packages.html">手动安装 atom 扩展包 packages</a>
                             </h3>
                         </header>
+                        <aside class="aside clearfix">
+                            
+                            <a class="tag label label-info" href="/tags/atom.html">atom</a>
+                            
+                            <a class="tag label label-info" href="/tags/packages.html">packages</a>
+                            
+                        </aside>
                         <section class="brief"><p>由于众所周知的原因, 我们下载 atom 扩展时会发现速度特别慢, 或者根本无法下载, 那我们可以尝试手动安装</p>
 
 <p>首先, 从 github 上下载(或其它地方) 扩展包, 解压
@@ -71,12 +146,15 @@
 <p>不过我没有尝试过该方案.</p>
 </section>
                         <aside class="aside clearfix">
-                            <a class="btn btn-primary btn-lg pull-right" href="/2016/3/16/install-atom-packages.html">继续阅读</a>
+                            <a class="btn btn-primary btn-lg pull-right" href="/2016/3/16/install-atom-packages.html">Read More</a>
                         </aside>
                     </div>
                 </div>
             </article>
             
+
+            
+
             <article class="article">
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1 panel panel-default">
@@ -91,6 +169,13 @@
                                 <a href="/2016/3/15/%e4%bb%8e%e9%9b%b6%e5%bc%80%e5%a7%8b%e5%88%86%e6%9e%90Django%e6%ba%90%e7%a0%813.html">从零开始分析 Django 源码 (三)</a>
                             </h3>
                         </header>
+                        <aside class="aside clearfix">
+                            
+                            <a class="tag label label-info" href="/tags/django.html">django</a>
+                            
+                            <a class="tag label label-info" href="/tags/%e6%ba%90%e7%a0%81%e5%88%86%e6%9e%90.html">源码分析</a>
+                            
+                        </aside>
                         <section class="brief"><p>工作太忙,实在是没时间写东西.
 今天来分析下 get_object_or_404 的源码</p>
 
@@ -155,12 +240,15 @@
 <p>PS: python 中,类也是对象</p>
 </section>
                         <aside class="aside clearfix">
-                            <a class="btn btn-primary btn-lg pull-right" href="/2016/3/15/%e4%bb%8e%e9%9b%b6%e5%bc%80%e5%a7%8b%e5%88%86%e6%9e%90Django%e6%ba%90%e7%a0%813.html">继续阅读</a>
+                            <a class="btn btn-primary btn-lg pull-right" href="/2016/3/15/%e4%bb%8e%e9%9b%b6%e5%bc%80%e5%a7%8b%e5%88%86%e6%9e%90Django%e6%ba%90%e7%a0%813.html">Read More</a>
                         </aside>
                     </div>
                 </div>
             </article>
             
+
+            
+
             <article class="article">
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1 panel panel-default">
@@ -175,6 +263,13 @@
                                 <a href="/2016/3/15/%e4%bb%8e%e9%9b%b6%e5%bc%80%e5%a7%8b%e5%88%86%e6%9e%90Django%e6%ba%90%e7%a0%812.html">从零开始分析 Django 源码 (二)</a>
                             </h3>
                         </header>
+                        <aside class="aside clearfix">
+                            
+                            <a class="tag label label-info" href="/tags/django.html">django</a>
+                            
+                            <a class="tag label label-info" href="/tags/%e6%ba%90%e7%a0%81%e5%88%86%e6%9e%90.html">源码分析</a>
+                            
+                        </aside>
                         <section class="brief"><h1 id="从-中间件-和-response-继续分析">从 <strong>中间件</strong> 和 <strong>response</strong> 继续分析</h1>
 
 <p>上次我们分析了 Django 的 startproject 和 startapp，按照我们学习的规律，我们应该继续分析 syncdb 和 runserver 两个 command，但是，由于对wsgi 和 数据库不够了解，所以我们可以先尝试分析其它的代码。</p>
@@ -483,369 +578,7 @@ request is an HttpRequest object. response is the HttpResponse or StreamingHttpR
 </blockquote>
 </section>
                         <aside class="aside clearfix">
-                            <a class="btn btn-primary btn-lg pull-right" href="/2016/3/15/%e4%bb%8e%e9%9b%b6%e5%bc%80%e5%a7%8b%e5%88%86%e6%9e%90Django%e6%ba%90%e7%a0%812.html">继续阅读</a>
-                        </aside>
-                    </div>
-                </div>
-            </article>
-            
-            <article class="article">
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1 panel panel-default">
-                        <header class="header">
-                            <div class="meta">
-                        <span class="date">
-                            <span class="month">3</span>
-                            <span class="day">15</span>
-                        </span>
-                            </div>
-                            <h3 class="title">
-                                <a href="/2016/3/15/%e4%bb%8e%e9%9b%b6%e5%bc%80%e5%a7%8b%e5%88%86%e6%9e%90Django%e6%ba%90%e7%a0%811.html">从零开始分析 Django 源码 (一)</a>
-                            </h3>
-                        </header>
-                        <section class="brief"><h3 id="从-startproject-开始">从 <em>startproject</em> 开始</h3>
-
-<p>还记得最初我们是如何开始 Django 项目的么？</p>
-<pre><code class="language-bash">django-admin startproject mysite
-</code></pre>
-
-<p>so，找到
-<code>Django/bin/django-admin.py</code></p>
-<pre><code class="language-python">#!/usr/bin/env python
-from django.core import management
-
-if __name__ == &quot;__main__&quot;:
-    management.execute_from_command_line()
-</code></pre>
-
-<p>OK，它是从 management 来的，我们继续跟进。
-找到
-<code>Django/core/management/__init__.py</code>
-最后几行</p>
-<pre><code class="language-python">def execute_from_command_line(argv=None):
-    &quot;&quot;&quot;
-    A simple method that runs a ManagementUtility.
-    &quot;&quot;&quot;
-    utility = ManagementUtility(argv)
-    utility.execute()
-</code></pre>
-
-<p>ManagementUtility 的一个对象，并调用了 execute</p>
-
-<p>ManagementUtility 的定义就在函数的上面，我们先来看它的 execute</p>
-<pre><code class="language-python">    def execute(self):
-        &quot;&quot;&quot;
-        Given the command-line arguments, this figures out which subcommand is
-        being run, creates a parser appropriate to that command, and runs it.
-        &quot;&quot;&quot;
-        # Preprocess options to extract --settings and --pythonpath.
-        # These options could affect the commands that are available, so they
-        # must be processed early.
-        parser = LaxOptionParser(usage=&quot;%prog subcommand [options] [args]&quot;,
-                                 version=get_version(),
-                                 option_list=BaseCommand.option_list)
-        self.autocomplete()
-        try:
-            options, args = parser.parse_args(self.argv)
-            handle_default_options(options)
-        except:
-            pass # Ignore any option errors at this point.
-
-        try:
-            subcommand = self.argv[1]
-        except IndexError:
-            subcommand = 'help' # Display help if no arguments were given.
-
-        if subcommand == 'help':
-            if len(args) &lt;= 2:
-                parser.print_lax_help()
-                sys.stdout.write(self.main_help_text() + '\n')
-            elif args[2] == '--commands':
-                sys.stdout.write(self.main_help_text(commands_only=True) + '\n')
-            else:
-                self.fetch_command(args[2]).print_help(self.prog_name, args[2])
-        elif subcommand == 'version':
-            sys.stdout.write(parser.get_version() + '\n')
-        # Special-cases: We want 'django-admin.py --version' and
-        # 'django-admin.py --help' to work, for backwards compatibility.
-        elif self.argv[1:] == ['--version']:
-            # LaxOptionParser already takes care of printing the version.
-            pass
-        elif self.argv[1:] in (['--help'], ['-h']):
-            parser.print_lax_help()
-            sys.stdout.write(self.main_help_text() + '\n')
-        else:
-            self.fetch_command(subcommand).run_from_argv(self.argv)
-</code></pre>
-
-<p>其中就是一些判断，根据参数执行不同的操作，比如打印帮助，打印版本信息等等。
-真正的命令会在</p>
-<pre><code class="language-python">self.fetch_command(subcommand).run_from_argv(self.argv)
-</code></pre>
-
-<p>从这里执行
-<code>self.fetch_command(subcommand)</code> 返回的会是 <em>BaseCommand</em> 及其子类的对象。
-然后调用对象的 run_from_argv 方法。
-我们尝试去找 startproject 的 Command</p>
-
-<p>在
-<code>Django/core/management/command/startproject.py</code>
-但其中的 Command 并没有 run_from_argv ，只知道其父类 是 TemplateCommand
-继续跟进， TemplateCommand 也没有 run_from_argv ， 其父类是 BaseCommand
-BaseCommand 中有 run_from_argv 这个方法。</p>
-<pre><code class="language-python">    def run_from_argv(self, argv):
-        &quot;&quot;&quot;
-        Set up any environment changes requested (e.g., Python path
-        and Django settings), then run this command. If the
-        command raises a ``CommandError``, intercept it and print it sensibly
-        to stderr. If the ``--traceback`` option is present or the raised
-        ``Exception`` is not ``CommandError``, raise it.
-        &quot;&quot;&quot;
-        parser = self.create_parser(argv[0], argv[1])
-        options, args = parser.parse_args(argv[2:])
-        handle_default_options(options)
-        try:
-            self.execute(*args, **options.__dict__)
-        except Exception as e:
-            if options.traceback or not isinstance(e, CommandError):
-                raise
-
-            # self.stderr is not guaranteed to be set here
-            stderr = getattr(self, 'stderr', OutputWrapper(sys.stderr, self.style.ERROR))
-            stderr.write('%s: %s' % (e.__class__.__name__, e))
-            sys.exit(1)
-</code></pre>
-
-<p>我尝试做些修改，看看输出会变成什么</p>
-<pre><code class="language-python">    def run_from_argv(self, argv):
-        &quot;&quot;&quot;
-        Set up any environment changes requested (e.g., Python path
-        and Django settings), then run this command. If the
-        command raises a ``CommandError``, intercept it and print it sensibly
-        to stderr. If the ``--traceback`` option is present or the raised
-        ``Exception`` is not ``CommandError``, raise it.
-        &quot;&quot;&quot;
-        print 238,argv
-        sys.exit(1)
-</code></pre>
-
-<p>我在终端中输入</p>
-<pre><code class="language-bash">django-admin.py startproject testproject
-</code></pre>
-
-<p>结果反馈了</p>
-<pre><code class="language-bash">238 ['/path/to/pycode/dj1.6.11/bin/django-admin.py', 'startproject', 'testproject']
-</code></pre>
-
-<p>同样，我们继续看</p>
-<pre><code class="language-python">        print 240,options
-        print 241,args
-        sys.exit(1)
-</code></pre>
-
-<p>会输出什么</p>
-<pre><code class="language-bash">240 {'files': [], 'settings': None, 'pythonpath': None, 'verbosity': u'1', 'traceback': None, 'extensions': ['py'], 'template': None}
-241 ['testproject']
-</code></pre>
-
-<p>看到这，handle_default_options 我们就先不看了，而是看 execute</p>
-<pre><code class="language-python">self.execute(*args, **options.__dict__)
-</code></pre>
-
-<p>后面会执行到 output = self.handle(*args, **options)</p>
-
-<p>我们来看 startproject 命令 对应的 handle</p>
-<pre><code class="language-python">class Command(TemplateCommand):
-    help = (&quot;Creates a Django project directory structure for the given &quot;
-            &quot;project name in the current directory or optionally in the &quot;
-            &quot;given directory.&quot;)
-
-    def handle(self, project_name=None, target=None, *args, **options):
-        self.validate_name(project_name, &quot;project&quot;)
-
-        # Check that the project_name cannot be imported.
-        try:
-            import_module(project_name)
-        except ImportError:
-            pass
-        else:
-            raise CommandError(&quot;%r conflicts with the name of an existing &quot;
-                               &quot;Python module and cannot be used as a &quot;
-                               &quot;project name. Please try another name.&quot; %
-                               project_name)
-
-        # Create a random SECRET_KEY hash to put it in the main settings.
-        chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&amp;*(-_=+)'
-        options['secret_key'] = get_random_string(50, chars)
-
-        super(Command, self).handle('project', project_name, target, **options)
-</code></pre>
-
-<p>这里会进行一个验证，然后尝试将 project_name 作为模块导入。
-生成 secret_key，最后调用
-TemplateCommand 类的 handle 方法，继续处理</p>
-
-<p>剩下的下次分析。</p>
-
-<p>今天继续</p>
-<pre><code class="language-python">    def handle(self, app_or_project, name, target=None, **options):
-        self.app_or_project = app_or_project
-        self.paths_to_remove = []
-        self.verbosity = int(options.get('verbosity'))
-
-        self.validate_name(name, app_or_project)
-
-        # if some directory is given, make sure it's nicely expanded
-        # 如果没有指定 target ，则把当前目录 连接项目名称 作为 项目目录
-        if target is None:
-            top_dir = path.join(os.getcwd(), name)
-            try:
-                print 76,top_dir
-                os.makedirs(top_dir)
-            except OSError as e:
-                if e.errno == errno.EEXIST:
-                    message = &quot;'%s' already exists&quot; % top_dir
-                else:
-                    message = e
-                raise CommandError(message)
-        # 否则使用 target 的目录作为项目目录
-        else:
-            top_dir = os.path.abspath(path.expanduser(target))
-            if not os.path.exists(top_dir):
-                raise CommandError(&quot;Destination directory '%s' does not &quot;
-                                   &quot;exist, please create it first.&quot; % top_dir)
-
-        extensions = tuple(
-            handle_extensions(options.get('extensions'), ignored=()))
-        extra_files = []
-        for file in options.get('files'):
-            extra_files.extend(map(lambda x: x.strip(), file.split(',')))
-        if self.verbosity &gt;= 2:
-            self.stdout.write(&quot;Rendering %s template files with &quot;
-                              &quot;extensions: %s\n&quot; %
-                              (app_or_project, ', '.join(extensions)))
-            self.stdout.write(&quot;Rendering %s template files with &quot;
-                              &quot;filenames: %s\n&quot; %
-                              (app_or_project, ', '.join(extra_files)))
-
-        base_name = '%s_name' % app_or_project
-        base_subdir = '%s_template' % app_or_project
-        base_directory = '%s_directory' % app_or_project
-        if django.VERSION[-2] != 'final':
-            docs_version = 'dev'
-        else:
-            docs_version = '%d.%d' % django.VERSION[:2]
-
-        context = Context(dict(options, **{
-            base_name: name,
-            base_directory: top_dir,
-            'docs_version': docs_version,
-        }), autoescape=False)
-
-        # Setup a stub settings environment for template rendering
-        from django.conf import settings
-        if not settings.configured:
-            settings.configure()
-
-        template_dir = self.handle_template(options.get('template'),
-                                            base_subdir)
-        prefix_length = len(template_dir) + 1
-
-        print 128,template_dir
-        for root, dirs, files in os.walk(template_dir):
-
-            path_rest = root[prefix_length:]
-            relative_dir = path_rest.replace(base_name, name)
-            if relative_dir:
-                target_dir = path.join(top_dir, relative_dir)
-                if not path.exists(target_dir):
-                    os.mkdir(target_dir)
-
-            for dirname in dirs[:]:
-                if dirname.startswith('.') or dirname == '__pycache__':
-                    dirs.remove(dirname)
-
-            for filename in files:
-                if filename.endswith(('.pyo', '.pyc', '.py.class')):
-                    # Ignore some files as they cause various breakages.
-                    continue
-                old_path = path.join(root, filename)
-                new_path = path.join(top_dir, relative_dir,
-                                     filename.replace(base_name, name))
-                if path.exists(new_path):
-                    raise CommandError(&quot;%s already exists, overlaying a &quot;
-                                       &quot;project or app into an existing &quot;
-                                       &quot;directory won't replace conflicting &quot;
-                                       &quot;files&quot; % new_path)
-
-                # Only render the Python files, as we don't want to
-                # accidentally render Django templates files
-                with open(old_path, 'rb') as template_file:
-                    content = template_file.read()
-                if filename.endswith(extensions) or filename in extra_files:
-                    content = content.decode('utf-8')
-                    template = Template(content)
-                    content = template.render(context)
-                    content = content.encode('utf-8')
-                with open(new_path, 'wb') as new_file:
-                    new_file.write(content)
-
-                if self.verbosity &gt;= 2:
-                    self.stdout.write(&quot;Creating %s\n&quot; % new_path)
-                try:
-                    shutil.copymode(old_path, new_path)
-                    self.make_writeable(new_path)
-                except OSError:
-                    self.stderr.write(
-                        &quot;Notice: Couldn't set permission bits on %s. You're &quot;
-                        &quot;probably using an uncommon filesystem setup. No &quot;
-                        &quot;problem.&quot; % new_path, self.style.NOTICE)
-
-        if self.paths_to_remove:
-            if self.verbosity &gt;= 2:
-                self.stdout.write(&quot;Cleaning up temporary files.\n&quot;)
-            for path_to_remove in self.paths_to_remove:
-                if path.isfile(path_to_remove):
-                    os.remove(path_to_remove)
-                else:
-                    shutil.rmtree(path_to_remove,
-                                  onerror=rmtree_errorhandler)
-</code></pre>
-
-<p>终端中执行</p>
-<pre><code class="language-bash">django-admin.py startproject -v 3 testproject
-</code></pre>
-
-<p>有以下输出</p>
-<pre><code class="language-bash">Rendering project template files with extensions: .py
-Rendering project template files with filenames: 
-128 /path/to/django/dj1.6.11/local/lib/python2.7/site-packages/django/conf/project_template
-Creating /home/pi/pycode/dj1.6.11/testproject/manage.py
-Creating /home/pi/pycode/dj1.6.11/testproject/testproject/settings.py
-Creating /home/pi/pycode/dj1.6.11/testproject/testproject/wsgi.py
-Creating /home/pi/pycode/dj1.6.11/testproject/testproject/__init__.py
-Creating /home/pi/pycode/dj1.6.11/testproject/testproject/urls.py
-</code></pre>
-
-<p>很容易就看到，它从 Django/conf/project_template 中拷贝文件到新创建的项目中。</p>
-
-<p>好了， startproject 分析到此结束。</p>
-
-<hr />
-
-<p>同理，startapp 也是一样，从 Django/conf/app_template 下拷贝文件</p>
-<pre><code class="language-python">Rendering app template files with extensions: .py
-Rendering app template files with filenames: 
-128 /path/to/django/dj1.6.11/local/lib/python2.7/site-packages/django/conf/app_template
-Creating /home/pi/pycode/dj1.6.11/testproject/testapp/admin.py
-Creating /home/pi/pycode/dj1.6.11/testproject/testapp/__init__.py
-Creating /home/pi/pycode/dj1.6.11/testproject/testapp/models.py
-Creating /home/pi/pycode/dj1.6.11/testproject/testapp/tests.py
-Creating /home/pi/pycode/dj1.6.11/testproject/testapp/views.py
-</code></pre>
-</section>
-                        <aside class="aside clearfix">
-                            <a class="btn btn-primary btn-lg pull-right" href="/2016/3/15/%e4%bb%8e%e9%9b%b6%e5%bc%80%e5%a7%8b%e5%88%86%e6%9e%90Django%e6%ba%90%e7%a0%811.html">继续阅读</a>
+                            <a class="btn btn-primary btn-lg pull-right" href="/2016/3/15/%e4%bb%8e%e9%9b%b6%e5%bc%80%e5%a7%8b%e5%88%86%e6%9e%90Django%e6%ba%90%e7%a0%812.html">Read More</a>
                         </aside>
                     </div>
                 </div>
@@ -853,7 +586,7 @@ Creating /home/pi/pycode/dj1.6.11/testproject/testapp/views.py
             
             <div class="article-pager text-center">
                 
-                
+                <a class="btn btn-lg btn-info" href="/posts/2.html">Next</a>
             </div>
         </div>
     </div>

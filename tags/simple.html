@@ -3,7 +3,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>packages - R3CALL</title>
+    <title>simple - R3CALL</title>
     <meta name="keywords" content="python,django,static"/>
     <meta name="description" content="R3CALL"/>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
@@ -40,7 +40,7 @@
 <section id="main">
     <div class="container">
         <div id="article-list">
-            <h2 class="tag text-center">packages</h2>
+            <h2 class="tag text-center">simple</h2>
 
             
 
@@ -55,34 +55,52 @@
                         </span>
                             </div>
                             <h3 class="title">
-                                <a href="/2016/3/16/install-atom-packages.html">手动安装 atom 扩展包 packages</a>
+                                <a href="/2016/3/16/git-%e6%9b%b4%e6%94%b9push.default.html">Git 2.0 更改 push default 为 simple</a>
                             </h3>
                         </header>
                         <aside class="aside clearfix">
                             
-                            <a class="tag label label-info" href="/tags/atom.html">atom</a>
+                            <a class="tag label label-info" href="/tags/git.html">git</a>
                             
-                            <a class="tag label label-info" href="/tags/packages.html">packages</a>
+                            <a class="tag label label-info" href="/tags/simple.html">simple</a>
+                            
+                            <a class="tag label label-info" href="/tags/matching.html">matching</a>
                             
                         </aside>
-                        <section class="brief"><p>由于众所周知的原因, 我们下载 atom 扩展时会发现速度特别慢, 或者根本无法下载, 那我们可以尝试手动安装</p>
+                        <section class="brief"><p>如果你最近更新了 Git，你可能会在执行 git push 时看到如下消息：</p>
 
-<p>首先, 从 github 上下载(或其它地方) 扩展包, 解压
-进入该文件夹, 找到 <code>package.json</code> 文件所在的目录
-执行命令</p>
-<pre><code class="language-shell">npm install
+<blockquote>
+<p>warning: push.default is unset; its implicit value is changing in
+Git 2.0 from &lsquo;matching&rsquo; to &lsquo;simple&rsquo;. To squelch this message
+and maintain the current behavior after the default changes, use:</p>
+
+<p><code>git config --global push.default matching</code></p>
+
+<p>To squelch this message and adopt the new behavior now, use:</p>
+
+<p><code>git config --global push.default simple</code></p>
+</blockquote>
+
+<h2 id="matching">Matching</h2>
+
+<p>‘matching’ 参数是 Git 1.x 的默认行为，其意是如果你执行 git push 但没有指定分支，它将 push 所有你本地的分支到远程仓库中对应匹配的分支。</p>
+
+<h2 id="simple">Simple</h2>
+
+<p>而 Git 2.x 默认的是 simple，意味着执行 git push 没有指定分支时，只有当前分支会被 push 到你使用 git pull 获取的代码。</p>
+
+<h2 id="修改默认设置">修改默认设置</h2>
+
+<p>从上述消息提示中的解释，我们可以修改全局配置，使之不会每次 push 的时候都进行提示。对于 matching 输入如下命令即可：</p>
+<pre><code class="language-shell">git config --global push.default matching
 </code></pre>
 
-<p>如果依赖比较多, 可以尝试一个一个独立安装.</p>
-
-<p>还有一种安装方式是执行:</p>
-<pre><code class="language-shell">apm install
+<p>而对于 simple ，请输入：</p>
+<pre><code class="language-shell">git config --global push.default simple
 </code></pre>
-
-<p>不过我没有尝试过该方案.</p>
 </section>
                         <aside class="aside clearfix">
-                            <a class="btn btn-primary btn-lg pull-right" href="/2016/3/16/install-atom-packages.html">Read More</a>
+                            <a class="btn btn-primary btn-lg pull-right" href="/2016/3/16/git-%e6%9b%b4%e6%94%b9push.default.html">Read More</a>
                         </aside>
                     </div>
                 </div>

@@ -3,7 +3,13 @@
     <title>R3CALL</title>
     <link>http://www.r3call.com/</link>
     <description>R3CALL</description>
-    <pubDate>Wed, 16 Mar 2016 00:29:36 +0800</pubDate>
+    <pubDate>Fri, 18 Mar 2016 21:09:33 +0800</pubDate>
+    <item>
+      <title>Git 2.0 更改 push default 为 simple</title>
+      <link>http://www.r3call.com/2016/3/16/git-更改push.default.html</link>
+      <description>&lt;p&gt;如果你最近更新了 Git，你可能会在执行 git push 时看到如下消息：&lt;/p&gt;&#xA;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;warning: push.default is unset; its implicit value is changing in&#xA;Git 2.0 from &amp;lsquo;matching&amp;rsquo; to &amp;lsquo;simple&amp;rsquo;. To squelch this message&#xA;and maintain the current behavior after the default changes, use:&lt;/p&gt;&#xA;&#xA;&lt;p&gt;&lt;code&gt;git config --global push.default matching&lt;/code&gt;&lt;/p&gt;&#xA;&#xA;&lt;p&gt;To squelch this message and adopt the new behavior now, use:&lt;/p&gt;&#xA;&#xA;&lt;p&gt;&lt;code&gt;git config --global push.default simple&lt;/code&gt;&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&#xA;&lt;h2 id=&#34;matching&#34;&gt;Matching&lt;/h2&gt;&#xA;&#xA;&lt;p&gt;‘matching’ 参数是 Git 1.x 的默认行为，其意是如果你执行 git push 但没有指定分支，它将 push 所有你本地的分支到远程仓库中对应匹配的分支。&lt;/p&gt;&#xA;&#xA;&lt;h2 id=&#34;simple&#34;&gt;Simple&lt;/h2&gt;&#xA;&#xA;&lt;p&gt;而 Git 2.x 默认的是 simple，意味着执行 git push 没有指定分支时，只有当前分支会被 push 到你使用 git pull 获取的代码。&lt;/p&gt;&#xA;&#xA;&lt;h2 id=&#34;修改默认设置&#34;&gt;修改默认设置&lt;/h2&gt;&#xA;&#xA;&lt;p&gt;从上述消息提示中的解释，我们可以修改全局配置，使之不会每次 push 的时候都进行提示。对于 matching 输入如下命令即可：&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;git config --global push.default matching&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&#xA;&lt;p&gt;而对于 simple ，请输入：&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;git config --global push.default simple&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;</description>
+      <pubDate>Wed, 16 Mar 2016 11:49:29 +0000</pubDate>
+    </item>
     <item>
       <title>手动安装 atom 扩展包 packages</title>
       <link>http://www.r3call.com/2016/3/16/install-atom-packages.html</link>
