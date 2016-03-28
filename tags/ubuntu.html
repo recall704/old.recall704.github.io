@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>ubuntu - R3CALL</title>
+    <meta name="keywords" content="python,django,static"/>
+    <meta name="description" content="R3CALL"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/prism.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+<header id="header">
+    <div class="container">
+        <div class="header clearfix">
+            <nav id="site-nav">
+                <ul class="nav nav-inverse nav-pills pull-right">
+                    <li role="presentation" class="">
+                        <a href="/" >Home
+                        </a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a href="/archive" >Archive
+                        </a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a href="/about" >About
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <h3 id="site-title">
+                <a href="/">R3CALL <sup>三人行，达者为师</sup></a>
+            </h3>
+        </div>
+    </div>
+</header>
+
+<section id="main">
+    <div class="container">
+        <div id="article-list">
+            <h2 class="tag text-center">ubuntu</h2>
+
+            
+
+            <article class="article">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1 panel panel-default">
+                        <header class="header">
+                            <div class="meta">
+                        <span class="date">
+                            <span class="month">3</span>
+                            <span class="day">28</span>
+                        </span>
+                            </div>
+                            <h3 class="title">
+                                <a href="/2016/3/28/install-golang-on-ubuntu.html">go lang 安装</a>
+                            </h3>
+                        </header>
+                        <aside class="aside clearfix">
+                            
+                            <a class="tag label label-info" href="/tags/go.html">go</a>
+                            
+                            <a class="tag label label-info" href="/tags/golang.html">golang</a>
+                            
+                            <a class="tag label label-info" href="/tags/install.html">install</a>
+                            
+                            <a class="tag label label-info" href="/tags/ubuntu.html">ubuntu</a>
+                            
+                        </aside>
+                        <section class="brief"><p>﻿虽然我不用 golang 编程，但是有很多 go 写的程序非常不错，需要自己编译安装，所以安装 golang 是必须的。</p>
+
+<h2 id="一-下载">一、下载</h2>
+<pre><code>
+wget https://storage.googleapis.com/golang/go1.4.3.linux-amd64.tar.gz
+
+</code></pre>
+
+<h2 id="二-安装">二、安装</h2>
+<pre><code>
+tar -C /usr/local -xzf go1.4.3.linux-amd64.tar.gz
+
+</code></pre>
+
+<h2 id="三-加入-path-与-设置-gopath">三、加入 PATH 与 设置 GOPATH</h2>
+
+<p>将 go 解压到 <code>/usr/local/go</code> 后，需要将这个目录加到 PATH 中</p>
+
+<p>修改 .bashrc 或 .zshrc ，这取决于你的的 shell</p>
+<pre><code>
+export GOPATH=/home/recall/gopath
+
+export PATH=$GOPATH/bin:$PATH
+
+export PATH=/usr/local/go/bin:$PATH
+
+</code></pre>
+
+<p>golang 要求必须设置 GOPATH 环境变量</p>
+
+<ul>
+<li><p>src 存放源代码（比如：.go .c .h .s等）</p></li>
+
+<li><p>pkg 编译后生成的文件（比如：.a）</p></li>
+
+<li><p>bin 编译后生成的可执行文件</p></li>
+</ul>
+
+<p>上面的例子中，我的用户名叫做 recall， 我在其中创建的一个文件夹叫做 gopath，然后将 GOPATH 下的 bin 目录加入到 PATH 中，这样 go 编译后的程序就能够直接执行了。</p>
+
+<p>第三行是将 go 所在目录加入到PATH，这样我们就能够直接使用 go 命令了。</p>
+
+<h2 id="四-测试">四、测试</h2>
+
+<p>安装完成后，运行</p>
+<pre><code>
+go env
+
+</code></pre>
+
+<p>可以查看当前 go 的所有环境变量。</p>
+<pre><code>
+GOARCH=&quot;amd64&quot; 
+GOBIN=&quot;&quot; 
+GOCHAR=&quot;6&quot; 
+GOEXE=&quot;&quot; 
+GOHOSTARCH=&quot;amd64&quot; 
+GOHOSTOS=&quot;linux&quot; 
+GOOS=&quot;linux&quot; 
+GOPATH=&quot;/home/recall/gopath&quot; 
+GORACE=&quot;&quot; 
+GOROOT=&quot;/usr/local/go&quot; 
+GOTOOLDIR=&quot;/usr/local/go/pkg/tool/linux_amd64&quot; 
+CC=&quot;gcc&quot; 
+GOGCCFLAGS=&quot;-fPIC -m64 -pthread -fmessage-length=0&quot; 
+CXX=&quot;g++&quot; 
+CGO_ENABLED=&quot;1&quot;
+
+</code></pre>
+
+<h2 id="五-备注">五、备注</h2>
+
+<p>如果使用 go get 获取go软件包的时候出现错误</p>
+<pre><code>
+go get golang.org/x/crypto/ssh
+
+</code></pre>
+
+<p>比如上面这个，出现问题的话，可以从github 上下载，放到对应的目录上即可。</p>
+
+<p>地址为 <code>https://github.com/golang/crypto</code></p>
+</section>
+                        <aside class="aside clearfix">
+                            <a class="btn btn-primary btn-lg pull-right" href="/2016/3/28/install-golang-on-ubuntu.html">Read More</a>
+                        </aside>
+                    </div>
+                </div>
+            </article>
+            
+            <div class="article-pager text-center">
+                
+                
+            </div>
+        </div>
+    </div>
+</section>
+<footer id="footer">
+    <div class="container text-center">
+        <p>© 2015 R3CALL.
+            <a href="http://creativecommons.org/licenses/by/3.0/">Some rights reserved </a> |
+            <a href="/feed.xml">Feed</a> |
+            <a href="/sitemap.xml">Sitemap</a>
+        </p>
+        <p>Powered by <a href="https://github.com/go-xiaohei/pugo">PuGo 0.9.15 (beta)</a>. Theme by Default.
+        </p>
+        
+    
+    
+
+    </div>
+</footer>
+<script src="/js/jquery-2.1.4.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/prism.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("pre code").addClass("line-numbers")
+    });
+</script>
+</body>
+</html>
