@@ -3,7 +3,14 @@
     <title>R3CALL</title>
     <link>http://www.r3call.com/</link>
     <description>R3CALL</description>
-    <pubDate>Sat, 19 Mar 2016 02:40:17 +0800</pubDate>
+    <managingEditor> (pugo-robot)</managingEditor>
+    <pubDate>Mon, 28 Mar 2016 22:00:59 +0800</pubDate>
+    <item>
+      <title>systemd 配置 supervisor</title>
+      <link>http://www.r3call.com/2016/3/28/systemd配置supervisor.html</link>
+      <description>&lt;p&gt;最近升级到了 kubuntu 15.10，系统启动管理由 init 变成了 systemd。&lt;/p&gt;&#xA;&#xA;&lt;p&gt;我一般习惯使用 supervisor 来管理我的程序，但是必须要系统开机启动，下面是我的一些记录。&lt;/p&gt;&#xA;&#xA;&lt;h2 id=&#34;一-安装-supervisor&#34;&gt;一、安装 supervisor&lt;/h2&gt;&#xA;&#xA;&lt;p&gt;切换到 root 或使用 sudo 安装&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;&#xA;pip install supervisor&#xA;&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&#xA;&lt;h2 id=&#34;二-默认的-supervisor-配置文件&#34;&gt;二、默认的 supervisor 配置文件&lt;/h2&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;&#xA;echo_supervisord_conf &amp;gt; supervisord.conf&#xA;&#xA;sudo mv supervisord.conf /etc/&#xA;&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&#xA;&lt;h2 id=&#34;三-测试-supervisor-能够正常启动&#34;&gt;三、测试 supervisor 能够正常启动&lt;/h2&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;&#xA;supervisord -c /etc/supervisord.conf&#xA;&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&#xA;&lt;h2 id=&#34;四-创建-supervisor-的-systemd-启动配置文件&#34;&gt;四、创建 supervisor 的 systemd 启动配置文件&lt;/h2&gt;&#xA;&#xA;&lt;p&gt;在目录 &lt;code&gt;/lib/systemd/system&lt;/code&gt; 下， 创建文件 &lt;code&gt;supervisord.service&lt;/code&gt;&lt;/p&gt;&#xA;&#xA;&lt;p&gt;内容如下&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;&#xA;[Unit] &#xA;Description=supervisord - Supervisor process control system for UNIX &#xA;Documentation=http://supervisord.org &#xA;After=network.target &#xA;&#xA;[Service] &#xA;Type=forking &#xA;ExecStart=/usr/local/bin/supervisord -c /etc/supervisord.conf &#xA;ExecReload=/usr/local/bin/supervisorctl reload &#xA;ExecStop=/usr/local/bin/supervisorctl shutdown &#xA;&#xA;[Install] &#xA;WantedBy=multi-user.target&#xA;&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&#xA;&lt;p&gt;需要注意的是，如果你的 &lt;code&gt;supervisord&lt;/code&gt; 所在的目录和我的不一样，你需要先查找 supervisord 的位置，然后修改成合适的值。&lt;/p&gt;&#xA;&#xA;&lt;h2 id=&#34;五-开机启动&#34;&gt;五、开机启动&lt;/h2&gt;&#xA;&#xA;&lt;p&gt;启动 supervisor&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code&gt;&#xA;systemctl start  supervisord.service&#xA;&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&#xA;&lt;p&gt;如果不能正常启动，可以用 &lt;code&gt;journalctl -xe&lt;/code&gt; 查看错误信息。&lt;/p&gt;&#xA;&#xA;&lt;p&gt;加入开机启动&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code&gt;&#xA;systemctl enable supervisord.service&#xA;&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;</description>
+      <pubDate>Mon, 28 Mar 2016 21:42:55 +0000</pubDate>
+    </item>
     <item>
       <title>docker 阿里云加速</title>
       <link>http://www.r3call.com/2016/3/19/docker-with-aliyun.html</link>

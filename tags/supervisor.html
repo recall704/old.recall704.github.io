@@ -3,7 +3,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>atom - R3CALL</title>
+    <title>supervisor - R3CALL</title>
     <meta name="keywords" content="python,django,static"/>
     <meta name="description" content="R3CALL"/>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
@@ -40,7 +40,7 @@
 <section id="main">
     <div class="container">
         <div id="article-list">
-            <h2 class="tag text-center">atom</h2>
+            <h2 class="tag text-center">supervisor</h2>
 
             
 
@@ -51,38 +51,88 @@
                             <div class="meta">
                         <span class="date">
                             <span class="month">3</span>
-                            <span class="day">16</span>
+                            <span class="day">28</span>
                         </span>
                             </div>
                             <h3 class="title">
-                                <a href="/2016/3/16/install-atom-packages.html">手动安装 atom 扩展包 packages</a>
+                                <a href="/2016/3/28/systemd%e9%85%8d%e7%bd%aesupervisor.html">systemd 配置 supervisor</a>
                             </h3>
                         </header>
                         <aside class="aside clearfix">
                             
-                            <a class="tag label label-info" href="/tags/atom.html">atom</a>
+                            <a class="tag label label-info" href="/tags/systemd.html">systemd</a>
                             
-                            <a class="tag label label-info" href="/tags/packages.html">packages</a>
+                            <a class="tag label label-info" href="/tags/supervisor.html">supervisor</a>
                             
                         </aside>
-                        <section class="brief"><p>由于众所周知的原因, 我们下载 atom 扩展时会发现速度特别慢, 或者根本无法下载, 那我们可以尝试手动安装</p>
+                        <section class="brief"><p>最近升级到了 kubuntu 15.10，系统启动管理由 init 变成了 systemd。</p>
 
-<p>首先, 从 github 上下载(或其它地方) 扩展包, 解压
-进入该文件夹, 找到 <code>package.json</code> 文件所在的目录
-执行命令</p>
-<pre><code class="language-shell">npm install
+<p>我一般习惯使用 supervisor 来管理我的程序，但是必须要系统开机启动，下面是我的一些记录。</p>
+
+<h2 id="一-安装-supervisor">一、安装 supervisor</h2>
+
+<p>切换到 root 或使用 sudo 安装</p>
+<pre><code class="language-shell">
+pip install supervisor
+
 </code></pre>
 
-<p>如果依赖比较多, 可以尝试一个一个独立安装.</p>
+<h2 id="二-默认的-supervisor-配置文件">二、默认的 supervisor 配置文件</h2>
+<pre><code class="language-shell">
+echo_supervisord_conf &gt; supervisord.conf
 
-<p>还有一种安装方式是执行:</p>
-<pre><code class="language-shell">apm install
+sudo mv supervisord.conf /etc/
+
 </code></pre>
 
-<p>不过我没有尝试过该方案.</p>
+<h2 id="三-测试-supervisor-能够正常启动">三、测试 supervisor 能够正常启动</h2>
+<pre><code class="language-shell">
+supervisord -c /etc/supervisord.conf
+
+</code></pre>
+
+<h2 id="四-创建-supervisor-的-systemd-启动配置文件">四、创建 supervisor 的 systemd 启动配置文件</h2>
+
+<p>在目录 <code>/lib/systemd/system</code> 下， 创建文件 <code>supervisord.service</code></p>
+
+<p>内容如下</p>
+<pre><code class="language-shell">
+[Unit] 
+Description=supervisord - Supervisor process control system for UNIX 
+Documentation=http://supervisord.org 
+After=network.target 
+
+[Service] 
+Type=forking 
+ExecStart=/usr/local/bin/supervisord -c /etc/supervisord.conf 
+ExecReload=/usr/local/bin/supervisorctl reload 
+ExecStop=/usr/local/bin/supervisorctl shutdown 
+
+[Install] 
+WantedBy=multi-user.target
+
+</code></pre>
+
+<p>需要注意的是，如果你的 <code>supervisord</code> 所在的目录和我的不一样，你需要先查找 supervisord 的位置，然后修改成合适的值。</p>
+
+<h2 id="五-开机启动">五、开机启动</h2>
+
+<p>启动 supervisor</p>
+<pre><code>
+systemctl start  supervisord.service
+
+</code></pre>
+
+<p>如果不能正常启动，可以用 <code>journalctl -xe</code> 查看错误信息。</p>
+
+<p>加入开机启动</p>
+<pre><code>
+systemctl enable supervisord.service
+
+</code></pre>
 </section>
                         <aside class="aside clearfix">
-                            <a class="btn btn-primary btn-lg pull-right" href="/2016/3/16/install-atom-packages.html">Read More</a>
+                            <a class="btn btn-primary btn-lg pull-right" href="/2016/3/28/systemd%e9%85%8d%e7%bd%aesupervisor.html">Read More</a>
                         </aside>
                     </div>
                 </div>
