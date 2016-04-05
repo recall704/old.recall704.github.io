@@ -49,6 +49,86 @@
                         <header class="header">
                             <div class="meta">
                         <span class="date">
+                            <span class="month">4</span>
+                            <span class="day">5</span>
+                        </span>
+                            </div>
+                            <h3 class="title">
+                                <a href="/2016/4/5/write-python-script-friendly.html">编写友好的脚本函数</a>
+                            </h3>
+                        </header>
+                        <aside class="aside clearfix">
+                            
+                            <a class="tag label label-info" href="/tags/python.html">python</a>
+                            
+                            <a class="tag label label-info" href="/tags/function.html">function</a>
+                            
+                        </aside>
+                        <section class="brief"><p>在我使用的命令行工具中，有些程序令我非常困惑，它们没有任何的输出和提示信息，我不知道这个程序是否在正常运行，特别是在国内特殊的网络环境下。</p>
+
+<p>我觉得一个友好的脚本程序是带有输出或进度提示的，特别是操作可能会花费比较多或者无法预知运算时间的，如果有一个 verbose 可选项，我想会是非常不错的注意。
+例如：</p>
+<pre><code class="language-python">def func1(verbose=0, *args, **kwargs):
+    if verbose &gt; 1:
+        print('verbose greater than 1')
+
+    if verbose &gt; 2:
+        print('verbose greater than 2')
+</code></pre>
+
+<p>还有一种比较常用处理方式：</p>
+<pre><code class="language-python">def init_slug():
+    aas = AdministrativeArea.objects.filter(slug__isnull=True)
+    for aa in aas:
+        aa.slug = slugify(aa.name)
+        aa.save()
+</code></pre>
+
+<p>上面的代码中 AdministrativeArea 是 django 中的一个 model，代码的大致意思是将 model 中的 name 转化成 slug 并保存。通常情况下，这会花费我大量的时间。</p>
+
+<p>我一般会写成这个样子</p>
+<pre><code class="language-python">def init_slug():
+    aas = AdministrativeArea.objects.filter(slug__isnull=True)
+    total = aas.count()
+    for index,aa in enumerate(aas):
+        print(&quot;Processing aa {0}/{1}&quot;.format(index,total))
+        aa.slug = slugify(aa.name)
+        aa.save()
+</code></pre>
+
+<p>输出：</p>
+<pre><code class="language-shell">...
+Processing aa 2031/20470125
+Processing aa 2032/20470125
+Processing aa 2033/20470125
+Processing aa 2034/20470125
+Processing aa 2035/20470125
+Processing aa 2036/20470125
+Processing aa 2037/20470125
+Processing aa 2038/20470125
+Processing aa 2039/20470125
+Processing aa 2040/20470125
+Processing aa 2041/20470125
+Processing aa 2042/20470125
+...
+</code></pre>
+</section>
+                        <aside class="aside clearfix">
+                            <a class="btn btn-primary btn-lg pull-right" href="/2016/4/5/write-python-script-friendly.html">Read More</a>
+                        </aside>
+                    </div>
+                </div>
+            </article>
+            
+
+            
+
+            <article class="article">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1 panel panel-default">
+                        <header class="header">
+                            <div class="meta">
+                        <span class="date">
                             <span class="month">3</span>
                             <span class="day">28</span>
                         </span>
@@ -300,71 +380,6 @@ sudo service docker restart
 </section>
                         <aside class="aside clearfix">
                             <a class="btn btn-primary btn-lg pull-right" href="/2016/3/19/docker-with-aliyun.html">Read More</a>
-                        </aside>
-                    </div>
-                </div>
-            </article>
-            
-
-            
-
-            <article class="article">
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1 panel panel-default">
-                        <header class="header">
-                            <div class="meta">
-                        <span class="date">
-                            <span class="month">3</span>
-                            <span class="day">16</span>
-                        </span>
-                            </div>
-                            <h3 class="title">
-                                <a href="/2016/3/16/git-%e6%9b%b4%e6%94%b9push.default.html">Git 2.0 更改 push default 为 simple</a>
-                            </h3>
-                        </header>
-                        <aside class="aside clearfix">
-                            
-                            <a class="tag label label-info" href="/tags/git.html">git</a>
-                            
-                            <a class="tag label label-info" href="/tags/simple.html">simple</a>
-                            
-                            <a class="tag label label-info" href="/tags/matching.html">matching</a>
-                            
-                        </aside>
-                        <section class="brief"><p>如果你最近更新了 Git，你可能会在执行 git push 时看到如下消息：</p>
-
-<blockquote>
-<p>warning: push.default is unset; its implicit value is changing in
-Git 2.0 from &lsquo;matching&rsquo; to &lsquo;simple&rsquo;. To squelch this message
-and maintain the current behavior after the default changes, use:</p>
-
-<p><code>git config --global push.default matching</code></p>
-
-<p>To squelch this message and adopt the new behavior now, use:</p>
-
-<p><code>git config --global push.default simple</code></p>
-</blockquote>
-
-<h2 id="matching">Matching</h2>
-
-<p>‘matching’ 参数是 Git 1.x 的默认行为，其意是如果你执行 git push 但没有指定分支，它将 push 所有你本地的分支到远程仓库中对应匹配的分支。</p>
-
-<h2 id="simple">Simple</h2>
-
-<p>而 Git 2.x 默认的是 simple，意味着执行 git push 没有指定分支时，只有当前分支会被 push 到你使用 git pull 获取的代码。</p>
-
-<h2 id="修改默认设置">修改默认设置</h2>
-
-<p>从上述消息提示中的解释，我们可以修改全局配置，使之不会每次 push 的时候都进行提示。对于 matching 输入如下命令即可：</p>
-<pre><code class="language-shell">git config --global push.default matching
-</code></pre>
-
-<p>而对于 simple ，请输入：</p>
-<pre><code class="language-shell">git config --global push.default simple
-</code></pre>
-</section>
-                        <aside class="aside clearfix">
-                            <a class="btn btn-primary btn-lg pull-right" href="/2016/3/16/git-%e6%9b%b4%e6%94%b9push.default.html">Read More</a>
                         </aside>
                     </div>
                 </div>

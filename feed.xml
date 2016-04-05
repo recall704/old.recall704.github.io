@@ -4,7 +4,13 @@
     <link>http://www.r3call.com/</link>
     <description>R3CALL</description>
     <managingEditor> (pugo-robot)</managingEditor>
-    <pubDate>Mon, 28 Mar 2016 22:29:04 +0800</pubDate>
+    <pubDate>Tue, 05 Apr 2016 21:14:29 +0800</pubDate>
+    <item>
+      <title>编写友好的脚本函数</title>
+      <link>http://www.r3call.com/2016/4/5/write-python-script-friendly.html</link>
+      <description>&lt;p&gt;在我使用的命令行工具中，有些程序令我非常困惑，它们没有任何的输出和提示信息，我不知道这个程序是否在正常运行，特别是在国内特殊的网络环境下。&lt;/p&gt;&#xA;&#xA;&lt;p&gt;我觉得一个友好的脚本程序是带有输出或进度提示的，特别是操作可能会花费比较多或者无法预知运算时间的，如果有一个 verbose 可选项，我想会是非常不错的注意。&#xA;例如：&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def func1(verbose=0, *args, **kwargs):&#xA;    if verbose &amp;gt; 1:&#xA;        print(&#39;verbose greater than 1&#39;)&#xA;&#xA;    if verbose &amp;gt; 2:&#xA;        print(&#39;verbose greater than 2&#39;)&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&#xA;&lt;p&gt;还有一种比较常用处理方式：&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def init_slug():&#xA;    aas = AdministrativeArea.objects.filter(slug__isnull=True)&#xA;    for aa in aas:&#xA;        aa.slug = slugify(aa.name)&#xA;        aa.save()&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&#xA;&lt;p&gt;上面的代码中 AdministrativeArea 是 django 中的一个 model，代码的大致意思是将 model 中的 name 转化成 slug 并保存。通常情况下，这会花费我大量的时间。&lt;/p&gt;&#xA;&#xA;&lt;p&gt;我一般会写成这个样子&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def init_slug():&#xA;    aas = AdministrativeArea.objects.filter(slug__isnull=True)&#xA;    total = aas.count()&#xA;    for index,aa in enumerate(aas):&#xA;        print(&amp;quot;Processing aa {0}/{1}&amp;quot;.format(index,total))&#xA;        aa.slug = slugify(aa.name)&#xA;        aa.save()&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&#xA;&lt;p&gt;输出：&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;...&#xA;Processing aa 2031/20470125&#xA;Processing aa 2032/20470125&#xA;Processing aa 2033/20470125&#xA;Processing aa 2034/20470125&#xA;Processing aa 2035/20470125&#xA;Processing aa 2036/20470125&#xA;Processing aa 2037/20470125&#xA;Processing aa 2038/20470125&#xA;Processing aa 2039/20470125&#xA;Processing aa 2040/20470125&#xA;Processing aa 2041/20470125&#xA;Processing aa 2042/20470125&#xA;...&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;</description>
+      <pubDate>Tue, 05 Apr 2016 20:39:56 +0000</pubDate>
+    </item>
     <item>
       <title>go lang 安装</title>
       <link>http://www.r3call.com/2016/3/28/install-golang-on-ubuntu.html</link>
