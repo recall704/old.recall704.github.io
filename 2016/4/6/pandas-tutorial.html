@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>pandas 入门 - R3CALL</title>
+    <meta name="keywords" content="python,django,static"/>
+    <meta name="description" content="pandas"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/prism.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+<header id="header">
+    <div class="container">
+        <div class="header clearfix">
+            <nav id="site-nav">
+                <ul class="nav nav-inverse nav-pills pull-right">
+                    <li role="presentation" class="">
+                        <a href="/" >Home
+                        </a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a href="/archive" >Archive
+                        </a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a href="/about" >About
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <h3 id="site-title">
+                <a href="/">R3CALL <sup>学无先后，达者为师</sup></a>
+            </h3>
+        </div>
+    </div>
+</header>
+
+<section id="main">
+    <div class="container">
+        <div id="article-single">
+            <article class="article">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1 panel panel-default">
+                        <header class="header">
+                            <div class="meta">
+                        <span class="date">
+                            <span class="month">4</span>
+                            <span class="day">6</span>
+                        </span>
+                            </div>
+                            <h3 class="title">
+                                <a href="/2016/4/6/pandas-tutorial.html">pandas 入门</a>
+                            </h3>
+                        </header>
+                        <aside class="aside clearfix">
+                            <a class="tag label label-info" href="/tags/pandas.html">pandas</a>
+                        </aside>
+                        <section class="brief"><p>pandas 是一个非常出名的数据分析包。下面我们简单学习下 pandas。</p>
+
+<h1 id="一-数据结构">一、数据结构</h1>
+
+<h3 id="series"><strong>Series</strong></h3>
+
+<p>Series 的结构有点像 list，又有点像 dict， 我们通过例子来理解。</p>
+
+<p>例一、list 转 Series：</p>
+<pre><code class="language-python">In [17]: myList1
+Out[17]: [1, 2, 5, 8, 10]
+
+In [18]: pandas.Series(myList1)
+Out[18]: 
+0     1
+1     2
+2     5
+3     8
+4    10
+dtype: int64
+</code></pre>
+
+<p>左侧列称为 index，右侧一列称为 value， dtype 为所有数据的数据类型，如果所有数据的数据类型都相同，则 dtype 为对应的类型，如果有数据的类型和其它的不一样，dtype 的类型会是 object。</p>
+
+<p>例二、 dict 转 Series</p>
+<pre><code class="language-python">In [27]: d
+Out[27]: {'a': 111, 'b': 222}
+
+In [28]: pandas.Series(d)
+Out[28]: 
+a    111
+b    222
+dtype: int64
+</code></pre>
+
+<p>dict 的 key 变成了 Series 的 index，values 变成了 Series 的 value。</p>
+
+<p>1.1 取值</p>
+<pre><code class="language-python">In [42]: s
+Out[42]: 
+0    1
+1    2
+2    3
+3    4
+dtype: int64
+
+In [43]: s[0]
+Out[43]: 1
+
+In [44]: s[1]
+Out[44]: 2
+</code></pre>
+
+<p>1.2 切片</p>
+<pre><code class="language-python">In [49]: s
+Out[49]: 
+0    1
+1    2
+2    3
+3    4
+dtype: int64
+
+In [50]: s[0:3]
+Out[50]: 
+0    1
+1    2
+2    3
+dtype: int64
+</code></pre>
+
+<p>和普通的 list 切片类似，切片数据不包括最后一项数据。</p>
+
+<hr />
+
+<h3 id="dataframe"><strong>DataFrame</strong></h3>
+
+<p>pandas 的 DataFrame 有点类似于关系数据库中的 table</p>
+<pre><code class="language-python">In [59]: new_df
+Out[59]: 
+      id  city_id
+0  80890    49383
+1  81677    49561
+2  82505    49534
+3  82541    49536
+4  82913    49573
+</code></pre>
+
+<p>第一列的数字被称为 index</p>
+<pre><code class="language-python">In [66]: new_df.index
+Out[66]: Int64Index([0, 1, 2, 3, 4], dtype='int64')
+</code></pre>
+
+<p>第一行的 id 和 city_id 被称为 column</p>
+<pre><code class="language-python">In [65]: new_df.columns
+Out[65]: Index([u'id', u'city_id'], dtype='object')
+</code></pre>
+
+<p>1.1 取一行数据</p>
+<pre><code class="language-python">In [82]: new_df
+Out[82]: 
+      id  city_id
+0  80890    49383
+1  81677    49561
+2  82505    49534
+3  82541    49536
+4  82913    49573
+
+In [83]: new_df.loc[1]
+Out[83]: 
+id         81677
+city_id    49561
+Name: 1, dtype: int64
+</code></pre>
+
+<p>取出来的数据是一个 Series</p>
+
+<p>1.2 取某一列数据</p>
+<pre><code class="language-python">In [91]: new_df
+Out[91]: 
+      id  city_id
+0  80890    49383
+1  81677    49561
+2  82505    49534
+3  82541    49536
+4  82913    49573
+
+In [92]: new_df['id']
+Out[92]: 
+0    80890
+1    81677
+2    82505
+3    82541
+4    82913
+Name: id, dtype: int64
+</code></pre>
+
+<p>1.3 切片，取某几行某几列数据</p>
+<pre><code class="language-python">In [109]: n_df
+Out[109]: 
+      id  zipcode  city_id
+0  80890     3200    49383
+1  81677     1060    49561
+2  82505     9011    49534
+3  82541     9810    49536
+4  82913     3110    49573
+5  83906     1050    49561
+6  84596     1023    49561
+7  84624     1071    49561
+8  85248     1050    49561
+9  85775     3200    49383
+
+In [110]: n_df.loc[0:4,['id','city_id']]
+Out[110]: 
+      id  city_id
+0  80890    49383
+1  81677    49561
+2  82505    49534
+3  82541    49536
+4  82913    49573
+</code></pre>
+
+<p>pandas 的相关操作很多： 排序，选取特定的值，标准差，最大值，最小值， 平均值<br />
+以及 用 pylab 绘图等等，稍后我们将继续。。。</p>
+</section>
+                    </div>
+                </div>
+            </article>
+        </div>
+        
+<section id="comment">
+    
+    
+</section>
+
+    </div>
+</section>
+<footer id="footer">
+    <div class="container text-center">
+        <p>© 2015 R3CALL.
+            <a href="http://creativecommons.org/licenses/by/3.0/">Some rights reserved </a> |
+            <a href="/feed.xml">Feed</a> |
+            <a href="/sitemap.xml">Sitemap</a>
+        </p>
+        <p>Powered by <a href="https://github.com/go-xiaohei/pugo">PuGo 0.9.15 (beta)</a>. Theme by Default.
+        </p>
+        
+    
+    
+
+    </div>
+</footer>
+<script src="/js/jquery-2.1.4.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/prism.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("pre code").addClass("line-numbers")
+    });
+</script>
+</body>
+</html>
