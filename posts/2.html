@@ -3,9 +3,9 @@
 <head lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>Page 2 - R3CALL</title>
+    <title>Page 2 - Win7.io</title>
     <meta name="keywords" content="python,django,static"/>
-    <meta name="description" content="R3CALL"/>
+    <meta name="description" content="Win7.io"/>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/prism.css"/>
     <link rel="stylesheet" href="/css/style.css"/>
@@ -31,7 +31,7 @@
                 </ul>
             </nav>
             <h3 id="site-title">
-                <a href="/">R3CALL <sup>学无先后，达者为师</sup></a>
+                <a href="/">Win7.io <sup>学无先后，达者为师</sup></a>
             </h3>
         </div>
     </div>
@@ -40,6 +40,103 @@
 <section id="main">
     <div class="container">
         <div id="article-list">
+
+            
+
+            <article class="article">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1 panel panel-default">
+                        <header class="header">
+                            <div class="meta">
+                        <span class="date">
+                            <span class="month">3</span>
+                            <span class="day">28</span>
+                        </span>
+                            </div>
+                            <h3 class="title">
+                                <a href="/2016/3/28/systemd%e9%85%8d%e7%bd%aesupervisor.html">systemd 配置 supervisor</a>
+                            </h3>
+                        </header>
+                        <aside class="aside clearfix">
+                            
+                            <a class="tag label label-info" href="/tags/systemd.html">systemd</a>
+                            
+                            <a class="tag label label-info" href="/tags/supervisor.html">supervisor</a>
+                            
+                        </aside>
+                        <section class="brief"><p>最近升级到了 kubuntu 15.10，系统启动管理由 init 变成了 systemd。</p>
+
+<p>我一般习惯使用 supervisor 来管理我的程序，但是必须要系统开机启动，下面是我的一些记录。</p>
+
+<h2 id="一-安装-supervisor">一、安装 supervisor</h2>
+
+<p>切换到 root 或使用 sudo 安装</p>
+<pre><code class="language-shell">
+pip install supervisor
+
+</code></pre>
+
+<h2 id="二-默认的-supervisor-配置文件">二、默认的 supervisor 配置文件</h2>
+<pre><code class="language-shell">
+echo_supervisord_conf &gt; supervisord.conf
+
+sudo mv supervisord.conf /etc/
+
+</code></pre>
+
+<h2 id="三-测试-supervisor-能够正常启动">三、测试 supervisor 能够正常启动</h2>
+<pre><code class="language-shell">
+supervisord -c /etc/supervisord.conf
+
+</code></pre>
+
+<h2 id="四-创建-supervisor-的-systemd-启动配置文件">四、创建 supervisor 的 systemd 启动配置文件</h2>
+
+<p>在目录 <code>/lib/systemd/system</code> 下， 创建文件 <code>supervisord.service</code></p>
+
+<p>内容如下</p>
+<pre><code class="language-shell">
+[Unit] 
+Description=supervisord - Supervisor process control system for UNIX 
+Documentation=http://supervisord.org 
+After=network.target 
+
+[Service] 
+Type=forking 
+ExecStart=/usr/local/bin/supervisord -c /etc/supervisord.conf 
+ExecReload=/usr/local/bin/supervisorctl reload 
+ExecStop=/usr/local/bin/supervisorctl shutdown 
+
+[Install] 
+WantedBy=multi-user.target
+
+</code></pre>
+
+<p>需要注意的是，如果你的 <code>supervisord</code> 所在的目录和我的不一样，你需要先查找 supervisord 的位置，然后修改成合适的值。</p>
+
+<h2 id="五-开机启动">五、开机启动</h2>
+
+<p>启动 supervisor</p>
+<pre><code>
+systemctl start  supervisord.service
+
+</code></pre>
+
+<p>如果不能正常启动，可以用 <code>journalctl -xe</code> 查看错误信息。</p>
+
+<p>加入开机启动</p>
+<pre><code>
+systemctl enable supervisord.service
+
+</code></pre>
+</section>
+                        <aside class="aside clearfix">
+                            <a class="btn btn-primary btn-lg pull-right" href="/2016/3/28/systemd%e9%85%8d%e7%bd%aesupervisor.html">Read More</a>
+                        </aside>
+                    </div>
+                </div>
+            </article>
+            
 
             
 
@@ -203,100 +300,6 @@ and maintain the current behavior after the default changes, use:</p>
                 </div>
             </article>
             
-
-            
-
-            <article class="article">
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1 panel panel-default">
-                        <header class="header">
-                            <div class="meta">
-                        <span class="date">
-                            <span class="month">3</span>
-                            <span class="day">15</span>
-                        </span>
-                            </div>
-                            <h3 class="title">
-                                <a href="/2016/3/15/%e4%bb%8e%e9%9b%b6%e5%bc%80%e5%a7%8b%e5%88%86%e6%9e%90Django%e6%ba%90%e7%a0%813.html">从零开始分析 Django 源码 (三)</a>
-                            </h3>
-                        </header>
-                        <aside class="aside clearfix">
-                            
-                            <a class="tag label label-info" href="/tags/django.html">django</a>
-                            
-                            <a class="tag label label-info" href="/tags/%e6%ba%90%e7%a0%81%e5%88%86%e6%9e%90.html">源码分析</a>
-                            
-                        </aside>
-                        <section class="brief"><p>工作太忙,实在是没时间写东西.
-今天来分析下 get_object_or_404 的源码</p>
-
-<h3 id="1-一个-get-object-or-404-的例子">1. 一个 get_object_or_404 的例子</h3>
-<pre><code class="language-python">def compnay_files_list(request,company_id):
-    company = get_object_or_404(Company,id = company_id)
-    fileowner_type = ContentType.objects.get_for_model(company)
-    
-    return render_to_response('company/company_files.html', {
-        'company':company,'contenttype_id':fileowner_type.id
-    }, context_instance=RequestContext(request))
-</code></pre>
-
-<h3 id="2-我们来分析分析-get-object-or-404">2. 我们来分析分析 get_object_or_404</h3>
-<pre><code class="language-python">def get_object_or_404(klass, *args, **kwargs):
-    &quot;&quot;&quot;
-    Uses get() to return an object, or raises a Http404 exception if the object
-    does not exist.
-
-    klass may be a Model, Manager, or QuerySet object. All other passed
-    arguments and keyword arguments are used in the get() query.
-
-    Note: Like with get(), an MultipleObjectsReturned will be raised if more than one
-    object is found.
-    &quot;&quot;&quot;
-    queryset = _get_queryset(klass)
-    try:
-        return queryset.get(*args, **kwargs)
-    except queryset.model.DoesNotExist:
-        raise Http404('No %s matches the given query.' % queryset.model._meta.object_name)
-</code></pre>
-
-<h4 id="2-1-我们先来分析-get-queryset-这个函数">2.1 我们先来分析 _get_queryset 这个函数</h4>
-<pre><code class="language-python">def _get_queryset(klass):
-    &quot;&quot;&quot;
-    Returns a QuerySet from a Model, Manager, or QuerySet. Created to make
-    get_object_or_404 and get_list_or_404 more DRY.
-    &quot;&quot;&quot;
-    if isinstance(klass, QuerySet):
-        return klass
-    elif isinstance(klass, Manager):
-        manager = klass
-    else:
-        manager = klass._default_manager
-    return manager.all()
-</code></pre>
-
-<p>如果是 QuerySet ,直接返回
-如果是 Manager ,返回  Manager.all() ,其实也是 QuerySet
-如果都不是,一般就会是一个 Model 名, 获得 默认的 Manager,然后 Manager.all() ,最后还是返回 QuerySet
-所以结论就是返回 QuerySet</p>
-
-<h4 id="2-2-继续分析get-object-or-404">2.2 继续分析get_object_or_404</h4>
-
-<p>返回了 QuerySet 对象之后,再get 取值就OK了.</p>
-
-<p>klass may be a Model, Manager, or QuerySet object.
-这里已经说得很清楚, klass 可以是 Model , Manager, 或者 QuerySet 对象.</p>
-
-<hr />
-
-<p>PS: python 中,类也是对象</p>
-</section>
-                        <aside class="aside clearfix">
-                            <a class="btn btn-primary btn-lg pull-right" href="/2016/3/15/%e4%bb%8e%e9%9b%b6%e5%bc%80%e5%a7%8b%e5%88%86%e6%9e%90Django%e6%ba%90%e7%a0%813.html">Read More</a>
-                        </aside>
-                    </div>
-                </div>
-            </article>
-            
             <div class="article-pager text-center">
                 <a class="btn btn-lg btn-info" href="/posts/1.html">Prev</a>
                 <a class="btn btn-lg btn-info" href="/posts/3.html">Next</a>
@@ -306,7 +309,7 @@ and maintain the current behavior after the default changes, use:</p>
 </section>
 <footer id="footer">
     <div class="container text-center">
-        <p>© 2015 R3CALL.
+        <p>© 2015 Win7.io.
             <a href="http://creativecommons.org/licenses/by/3.0/">Some rights reserved </a> |
             <a href="/feed.xml">Feed</a> |
             <a href="/sitemap.xml">Sitemap</a>

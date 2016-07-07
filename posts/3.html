@@ -3,9 +3,9 @@
 <head lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>Page 3 - R3CALL</title>
+    <title>Page 3 - Win7.io</title>
     <meta name="keywords" content="python,django,static"/>
-    <meta name="description" content="R3CALL"/>
+    <meta name="description" content="Win7.io"/>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/prism.css"/>
     <link rel="stylesheet" href="/css/style.css"/>
@@ -31,7 +31,7 @@
                 </ul>
             </nav>
             <h3 id="site-title">
-                <a href="/">R3CALL <sup>学无先后，达者为师</sup></a>
+                <a href="/">Win7.io <sup>学无先后，达者为师</sup></a>
             </h3>
         </div>
     </div>
@@ -40,6 +40,100 @@
 <section id="main">
     <div class="container">
         <div id="article-list">
+
+            
+
+            <article class="article">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1 panel panel-default">
+                        <header class="header">
+                            <div class="meta">
+                        <span class="date">
+                            <span class="month">3</span>
+                            <span class="day">15</span>
+                        </span>
+                            </div>
+                            <h3 class="title">
+                                <a href="/2016/3/15/%e4%bb%8e%e9%9b%b6%e5%bc%80%e5%a7%8b%e5%88%86%e6%9e%90Django%e6%ba%90%e7%a0%813.html">从零开始分析 Django 源码 (三)</a>
+                            </h3>
+                        </header>
+                        <aside class="aside clearfix">
+                            
+                            <a class="tag label label-info" href="/tags/django.html">django</a>
+                            
+                            <a class="tag label label-info" href="/tags/%e6%ba%90%e7%a0%81%e5%88%86%e6%9e%90.html">源码分析</a>
+                            
+                        </aside>
+                        <section class="brief"><p>工作太忙,实在是没时间写东西.
+今天来分析下 get_object_or_404 的源码</p>
+
+<h3 id="1-一个-get-object-or-404-的例子">1. 一个 get_object_or_404 的例子</h3>
+<pre><code class="language-python">def compnay_files_list(request,company_id):
+    company = get_object_or_404(Company,id = company_id)
+    fileowner_type = ContentType.objects.get_for_model(company)
+    
+    return render_to_response('company/company_files.html', {
+        'company':company,'contenttype_id':fileowner_type.id
+    }, context_instance=RequestContext(request))
+</code></pre>
+
+<h3 id="2-我们来分析分析-get-object-or-404">2. 我们来分析分析 get_object_or_404</h3>
+<pre><code class="language-python">def get_object_or_404(klass, *args, **kwargs):
+    &quot;&quot;&quot;
+    Uses get() to return an object, or raises a Http404 exception if the object
+    does not exist.
+
+    klass may be a Model, Manager, or QuerySet object. All other passed
+    arguments and keyword arguments are used in the get() query.
+
+    Note: Like with get(), an MultipleObjectsReturned will be raised if more than one
+    object is found.
+    &quot;&quot;&quot;
+    queryset = _get_queryset(klass)
+    try:
+        return queryset.get(*args, **kwargs)
+    except queryset.model.DoesNotExist:
+        raise Http404('No %s matches the given query.' % queryset.model._meta.object_name)
+</code></pre>
+
+<h4 id="2-1-我们先来分析-get-queryset-这个函数">2.1 我们先来分析 _get_queryset 这个函数</h4>
+<pre><code class="language-python">def _get_queryset(klass):
+    &quot;&quot;&quot;
+    Returns a QuerySet from a Model, Manager, or QuerySet. Created to make
+    get_object_or_404 and get_list_or_404 more DRY.
+    &quot;&quot;&quot;
+    if isinstance(klass, QuerySet):
+        return klass
+    elif isinstance(klass, Manager):
+        manager = klass
+    else:
+        manager = klass._default_manager
+    return manager.all()
+</code></pre>
+
+<p>如果是 QuerySet ,直接返回
+如果是 Manager ,返回  Manager.all() ,其实也是 QuerySet
+如果都不是,一般就会是一个 Model 名, 获得 默认的 Manager,然后 Manager.all() ,最后还是返回 QuerySet
+所以结论就是返回 QuerySet</p>
+
+<h4 id="2-2-继续分析get-object-or-404">2.2 继续分析get_object_or_404</h4>
+
+<p>返回了 QuerySet 对象之后,再get 取值就OK了.</p>
+
+<p>klass may be a Model, Manager, or QuerySet object.
+这里已经说得很清楚, klass 可以是 Model , Manager, 或者 QuerySet 对象.</p>
+
+<hr />
+
+<p>PS: python 中,类也是对象</p>
+</section>
+                        <aside class="aside clearfix">
+                            <a class="btn btn-primary btn-lg pull-right" href="/2016/3/15/%e4%bb%8e%e9%9b%b6%e5%bc%80%e5%a7%8b%e5%88%86%e6%9e%90Django%e6%ba%90%e7%a0%813.html">Read More</a>
+                        </aside>
+                    </div>
+                </div>
+            </article>
+            
 
             
 
@@ -759,7 +853,7 @@ Creating /home/pi/pycode/dj1.6.11/testproject/testapp/views.py
 </section>
 <footer id="footer">
     <div class="container text-center">
-        <p>© 2015 R3CALL.
+        <p>© 2015 Win7.io.
             <a href="http://creativecommons.org/licenses/by/3.0/">Some rights reserved </a> |
             <a href="/feed.xml">Feed</a> |
             <a href="/sitemap.xml">Sitemap</a>
